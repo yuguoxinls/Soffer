@@ -1,6 +1,8 @@
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 public class SolutionTest {
     Solution solution = new Solution();
 
@@ -55,5 +57,25 @@ public class SolutionTest {
         Assert.assertEquals(1, solution.minArray(numbers));
         numbers = new int[]{2, 2, 2, 0, 1};
         Assert.assertEquals(0, solution.minArray(numbers));
+    }
+
+    @Test
+    public void exchange() {
+        int[] numbers = {};
+        System.out.println(Arrays.toString(solution.exchange(numbers)));
+    }
+
+    @Test
+    public void reverseList() {
+        ListNode head = new ListNode(1);
+        ListNode node1 = new ListNode(2);
+        ListNode node2 = new ListNode(3);
+        ListNode node3 = new ListNode(4);
+        ListNode node4 = new ListNode(5);
+        head.next = node1;
+        node1.next = node2;
+        node2.next = node3;
+        node3.next = node4;
+        System.out.println(solution.reverseList(head));
     }
 }
