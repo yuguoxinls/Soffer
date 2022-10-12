@@ -78,4 +78,10 @@ public class SolutionTest {
         node3.next = node4;
         System.out.println(solution.reverseList(head));
     }
+
+    @Test
+    public void spiralOrder() {
+        int[][] matrix = {{1,2,3},{4,5,6},{7,8,9}};
+        System.out.println(Arrays.toString(solution.spiralOrder(matrix)));
+    }
 }

@@ -305,26 +305,123 @@ public class Solution {
         return pre;
     }
 
+    /**
+     * 输入两个递增排序的链表，合并这两个链表并使新链表中的节点仍然是递增排序的。
+     * 输入：1->2->4, 1->3->4
+     * 输出：1->1->2->3->4->4
+     */
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) { //TODO 重点看
+        // 显然要定义两个指针来遍历两个链表，每次取两个指针中的最小值，放到合并后的链表中
+        // 这里的重点是：合并后的链表没有第一个节点，导致无法将获得的第一个节点存到合并后的链表中
+        // 这时可以定义一个伪头节点，作为合并后链表的第一个节点
+        ListNode dum = new ListNode(0);
+        ListNode cur = dum;
+        while (l1 != null && l2 != null){
+            if (l1.val <= l2.val){
+                cur.next = l1;
+                cur = cur.next;
+                l1 = l1.next;
+            }else {
+                cur.next = l2;
+                cur = cur.next;
+                l2 = l2.next;
+            }
+        }
+        if (l2 == null){
+            cur.next = l1;
+        }
+        if (l1 == null){
+            cur.next = l2;
+        }
+        return dum.next;
+    }
 
+    /**
+     * 请完成一个函数，输入一个二叉树，该函数输出它的镜像。
+     * 输入：root = [4,2,7,1,3,6,9]
+     * 输出：[4,7,2,9,6,3,1]
+     */
+    //TODO 重点看
+    public TreeNode mirrorTree(TreeNode root) { // mirrorTree会对当前的二叉树镜像
+        // 看成一个递归问题，交换每个节点的左 / 右子节点，即可生成二叉树的镜像
+        if (root == null) return null; // 特例
+        TreeNode tmp = root.left;
+        root.left = mirrorTree(root.right); // 把根节点的右子树镜像，交给左子树
+        root.right = mirrorTree(tmp);  // 把根节点的左子树镜像，交给右子树
+        return root; // 返回根节点
+    }
 
+    /**
+     * 请实现一个函数，用来判断一棵二叉树是不是对称的。如果一棵二叉树和它的镜像一样，那么它是对称的。
+     * 输入：root = [1,2,2,3,4,4,3]
+     * 输出：true
+     * 输入：root = [1,2,2,null,3,null,3]
+     * 输出：false
+     */
+    public boolean isSymmetric(TreeNode root) { //TODO 重点看
+        // 题解：二叉树对称，当且仅当其左右子树对称
+            // L.val == R.val
+            // L.left.val == R.right.val
+            // L.right.val == R.left.val
+            // 上述三步，用一个函数来表示，专门来判断每对节点是否对称
+        return root == null || recur(root.left, root.right);
+    }
+    private boolean recur(TreeNode L, TreeNode R) {
+        if (L == null && R == null) return true;
+        if (L == null || R == null || L.val != R.val) return false;
+        return recur(L.left, R.right) && recur(L.right, R.left);
+    }
 
+    /**
+     * 输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字。
+     * 输入：matrix = [[1,2,3],[4,5,6],[7,8,9]]
+     * 输出：[1,2,3,6,9,8,7,4,5]
+     */
+    public int[] spiralOrder(int[][] matrix) { //TODO 重点中的重点！！！
+        // 题解：按照题目要求，打印有四个方向
+            //1. 从左到右
+            //2. 从上到下
+            //3. 从右到左
+            //4. 从下到上
+        // 这样就完成了一圈的打印，因此可定义4个变量，来表示边界
+        // 可以使用 x++ 和 ++x 的不同来提高效率
+        if (matrix.length == 0) return new int[0]; //特殊情况
+        int l = 0, t = 0, r = matrix[0].length-1, b = matrix.length-1;
+        int[] res = new int[(b+1) * (r+1)];
+        int x = 0; //表示res数组的索引
+        while (true){
+            // left to right
+            for (int i = l; i <= r; i++) {
+                res[x++] = matrix[t][i]; // 先执行表达式，最后对x进行自增
+//                x = x + 1;
+            }
+//            t = t + 1;
+            if (++t > b) break; // 先自增，再执行表达式
+            // top to bottom
+            for (int i = t; i <= b; i++) {
+                res[x++] = matrix[i][r];
+//                x = x + 1;
+            }
+//            r = r - 1;
+            if (l > --r) break;
+            // right to left
+            for (int i = r; i >= l; i--) {
+                res[x++] = matrix[b][i];
+//                x = x + 1;
+            }
+//            b = b - 1;
+            if (t > --b) break;
+            // bottom to top
+            for (int i = b; i >= t; i--) {
+                res[x++] = matrix[i][l];
+//                x = x + 1;
+            }
+//            l = l + 1;
+            if (++l > r) break;
+        }
+        return res;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 
 
 }
