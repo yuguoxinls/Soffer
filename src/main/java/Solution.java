@@ -423,5 +423,98 @@ public class Solution {
 
     }
 
+    /**
+     * 从上到下按层打印二叉树，同一层的节点按从左到右的顺序打印，每一层打印到一行。
+     * 例如: 给定二叉树: [3,9,20,null,null,15,7],
+     * 返回其层次遍历结果：
+     * [
+     *   [3],
+     *   [9,20],
+     *   [15,7]
+     * ]
+     */
+    public List<List<Integer>> levelOrder(TreeNode root) { // TODO 看！！！！！！
+        // 题目要求的二叉树的 从上至下 打印（即按层打印），又称为二叉树的 广度优先搜索（BFS）。BFS 通常借助 队列 的先入先出特性来实现。
+        Queue<TreeNode> queue = new LinkedList<>(); // 用于存放待打印的节点
+        List<List<Integer>> res = new ArrayList<>(); // 用于存放最后结果
+        if (root != null) queue.add(root); // 先把根节点放进去
+        while (!queue.isEmpty()){
+            List<Integer> tmp = new ArrayList<>(); //用于存放当前层的所有节点值
+            for (int i = queue.size(); i >0 ; i--) { // 由于queue中存放了待打印的节点，因此其长度为当前层所需要的数量，也就是循环这么多次，向tmp中添加这么多次数的值
+                TreeNode node = queue.poll(); // 每一次从队列中取出节点
+                tmp.add(node.val); // 获取值，放到tmp中
+                if (node.left != null) queue.add(node.left); // 当前节点的值获取完毕，把他的左右节点添加到队列中，待后续循环处理
+                if (node.right != null) queue.add(node.right);
+            } // for循环结束后，tmp中存放了当前层的所有节点的值
+            res.add(tmp);
+        }
+        return res;
+    }
+
+    /**
+     * 数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。
+     * 输入: [1, 2, 3, 2, 2, 2, 5, 4, 2]
+     * 输出: 2
+     */
+    /**
+     * 本题常见的三种解法：
+     * 哈希表统计法： 遍历数组 nums ，用 HashMap 统计各数字的数量，即可找出 众数 。此方法时间和空间复杂度均为 O(N)。
+     * 数组排序法： 将数组 nums 排序，数组中点的元素 一定为众数。
+     * 摩尔投票法： 核心理念为 票数正负抵消 。此方法时间和空间复杂度分别为 O(N)和 O(1)，为本题的最佳解法。
+     */
+    public int majorityElement(int[] nums) {
+        // 方法一：hashMap by myself
+        /*int target = nums.length/2;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            if (map.containsKey(num)){
+                Integer value = map.get(num);
+                map.put(num, ++value);
+            }else {
+                map.put(num, 1);
+            }
+        }
+        Set<Integer> set = map.keySet();
+        for (Integer key : set) {
+            Integer targetValue = map.get(key);
+            if (targetValue > target) return key;
+        }
+        return -1;*/
+        // 方法二：对数组排序
+        /*for (int i = 0; i < nums.length-1; i++) {
+            for (int j = 0; j < nums.length - 1; j++) {
+                if (nums[j] > nums[j+1]){
+                    int tmp = nums[j];
+                    nums[j] = nums[j+1];
+                    nums[j+1] = tmp;
+                }
+            }
+        } // 冒泡排序效率太低，数组很大的话，时间空间复杂度大，可更换其他排序方法
+        return nums[nums.length/2];*/
+        // 方法三：摩尔投票法
+        int x = 0, votes = 0; //TODO 太妙了！！！
+        for(int num : nums){
+            if(votes == 0) x = num;
+            votes += num == x ? 1 : -1; // 如果num == x，votes就自增1；否则自减1
+        }
+        return x;
+    }
+
+    /**
+     * 输入整数数组 arr ，找出其中最小的 k 个数。例如，输入4、5、1、6、2、7、3、8这8个数字，则最小的4个数字是1、2、3、4。
+     */
+    public int[] getLeastNumbers(int[] arr, int k) { // TODO 待优化，使用堆的思想(官方)或者基于快排的数组划分(K神)
+        for (int i = 0; i < arr.length-1; i++) {
+            for (int j = 0; j < arr.length - 1; j++) {
+                if (arr[j] > arr[j+1]){
+                    int tmp = arr[j];
+                    arr[j] = arr[j+1];
+                    arr[j+1] = tmp;
+                }
+            }
+        }
+        return Arrays.copyOfRange(arr, 0, k);
+    }
+
 
 }

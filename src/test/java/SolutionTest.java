@@ -84,4 +84,16 @@ public class SolutionTest {
         int[][] matrix = {{1,2,3},{4,5,6},{7,8,9}};
         System.out.println(Arrays.toString(solution.spiralOrder(matrix)));
     }
+
+    @Test
+    public void majorityElement() {
+        int[] nums = {1,2,3,2,2,2,5,4,2};
+        Assert.assertEquals(2, solution.majorityElement(nums));
+    }
+
+    @Test
+    public void getLeastNumbers() {
+        int[] arr = {3,2,1};
+        System.out.println(Arrays.toString(solution.getLeastNumbers(arr, 2)));
+    }
 }
