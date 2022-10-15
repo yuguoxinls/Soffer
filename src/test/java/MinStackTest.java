@@ -1,8 +1,6 @@
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * * MinStack minStack = new MinStack();
  * * minStack.push(-2);

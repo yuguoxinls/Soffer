@@ -114,4 +114,16 @@ public class SolutionTest {
         int[] arr = {5,7,7,8,8,10};
         Assert.assertEquals(0, solution.search(arr, 1));
     }
+
+    @Test
+    public void testMissingNumber() {
+        int[] nums = {0,1,3,4,5,6,7,8,9};
+        Assert.assertEquals(2, solution.missingNumber(nums));
+    }
+
+    @Test
+    public void testTwoSum() {
+        int[] nums = {2,7,11,15};
+        System.out.println(Arrays.toString(solution.twoSum(nums, 9)));
+    }
 }

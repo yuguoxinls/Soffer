@@ -646,4 +646,202 @@ public class Solution {
         }
         return count;
     }
+
+    /**
+     * 一个长度为n-1的递增排序数组中的所有数字都是唯一的，并且每个数字都在范围 0～n-1之内。
+     * 在范围0～n-1内的n个数字中有且只有一个数字不在该数组中，请找出这个数字。
+     * 输入: [0,1,3]
+     * 输出: 2
+     * 输入: [0,1,2,3,4,5,6,7,9]
+     * 输出: 8
+     */
+    public int missingNumber(int[] nums) { //TODO 需要判断特殊情况，缺失的是第一项或者最后一项
+        /*if (nums[0] == 1){
+            //代表缺失的是第一项
+            return 0;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != i) return i;
+        }
+        return nums.length; //执行到这，说明前面条件都不满足，因此缺失的是最后一项*/
+        // 尝试使用二分法，自己写的这个效率低
+        /*if (nums[0] == 1) return 0;
+        int l = 0;
+        int r = nums.length-1;
+        while (l<=r){
+            int mid = (l+r)/2;
+            if (nums[mid] != mid){
+                if (nums[mid - 1] == mid - 1) return mid;
+                r = mid - 1;
+            }else {
+                l = mid + 1;
+            }
+        }
+        return nums.length;*/
+        //TODO K神二分法
+        int l = 0;
+        int r = nums.length-1;
+        while (l<=r){
+            int mid = (l+r)/2;
+            if (nums[mid] == mid) l = mid + 1;
+            else r = mid - 1;
+        }
+        return l; // 最后返回 l 太惊艳了！这个条件自己像是想不出来的，要举个例子试一下
+    }
+
+    /**
+     * 给定一棵二叉搜索树，请找出其中第 k 大的节点的值。
+     * 输入: root = [3,1,4,null,2], k = 1
+     *    3
+     *   / \
+     *  1   4
+     *   \
+     *    2
+     * 输出: 4
+     * 输入: root = [5,3,6,2,4,null,null,1], k = 3
+     *        5
+     *       / \
+     *      3   6
+     *     / \
+     *    2   4
+     *   /
+     *  1
+     * 输出: 4
+     */
+    /*int res, k;
+    public int kthLargest(TreeNode root, int k) { // TODO K神解答，看不懂。。。
+        *//**
+         * 二叉搜索树的中序遍历得到的是升序序列：左、根、右，算法如下：
+         * // 打印中序遍历
+         * void dfs(TreeNode root) {
+         *     if(root == null) return;
+         *     dfs(root.left); // 左
+         *     System.out.println(root.val); // 根
+         *     dfs(root.right); // 右
+         * }
+         * 为适应本题，可改造上述算法：
+         *  1. 顺序改为右、根、左
+         *  2. 递归遍历时计数，统计当前节点的序号
+         *  3. 递归到第 k个节点时，应记录结果 res ；
+         *  4. 记录结果后，后续的遍历即失去意义，应提前终止（即返回）。
+         *//*
+        this.k = k;
+        dfs(root);
+        return res;
+    }
+    void dfs(TreeNode root){
+        if (root == null) return;
+        dfs(root.right);
+        if (k == 0) return;
+        if (--k == 0) res = root.val;
+        dfs(root.left);
+    }*/
+    List<Integer> res = new ArrayList<>();
+    public int kthLargest(TreeNode root, int k) {
+        inOrder(root);
+        return res.get(k - 1);
+    }
+    public void inOrder(TreeNode node){
+        if (node == null) return;
+        inOrder(node.right);
+        res.add(node.val);
+        inOrder(node.left);
+    }
+
+    /**
+     * 输入一棵二叉树的根节点，求该树的深度。从根节点到叶节点依次经过的节点（含根、叶节点）形成树的一条路径，最长路径的长度为树的深度。
+     * 给定二叉树 [3,9,20,null,null,15,7]，
+     *     3
+     *    / \
+     *   9  20
+     *     /  \
+     *    15   7
+     * 返回它的最大深度 3 。
+     */
+    public int maxDepth(TreeNode root) { //TODO 二叉树的遍历
+        // 二叉树的遍历分为DFS：先序，中序，后序；BFS；按层遍历
+        // DFS常使用递归或栈；BFS常使用队列
+        // 方法一：DFS, 采用递归，分析子问题：树的深度等于MAX(左子树深度，右子树深度)+1 (更好一些)
+        if (root == null) return 0;
+        return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+        // 方法二：BFS，使用队列，树的深度等于层数
+        /*if (root == null) return 0;
+        List<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        int res = 0;
+        while (!queue.isEmpty()){
+            List<TreeNode> tmp = new LinkedList<>();
+            for (TreeNode treeNode : queue) {
+                if (treeNode.left != null) tmp.add(treeNode.left);
+                if (treeNode.right != null) tmp.add(treeNode.right);
+            }
+            queue = tmp;
+            res++;
+        }
+        return res;*/
+    }
+
+    /**
+     * 输入一棵二叉树的根节点，判断该树是不是平衡二叉树。如果某二叉树中 **任意节点** 的左右子树的深度相差不超过1，那么它就是一棵平衡二叉树。
+     * 给定二叉树 [3,9,20,null,null,15,7]
+     *     3
+     *    / \
+     *   9  20
+     *     /  \
+     *    15   7
+     * 返回 true 。
+     * 给定二叉树 [1,2,2,3,3,null,null,4,4]
+     *        1
+     *       / \
+     *      2   2
+     *     / \
+     *    3   3
+     *   / \
+     *  4   4
+     * 返回 false 。
+     */
+    public boolean isBalanced(TreeNode root) {
+        if (root == null) return true;
+        return Math.abs(maxDepth(root.left) - maxDepth(root.right)) <= 1 && isBalanced(root.left) && isBalanced(root.right);
+    }
+
+    /**
+     * 输入一个递增排序的数组和一个数字s，在数组中查找两个数，使得它们的和正好是s。如果有多对数字的和等于s，则输出任意一对即可。
+     * 输入：nums = [2,7,11,15], target = 9
+     * 输出：[2,7] 或者 [7,2]
+     * 输入：nums = [10,26,30,31,47,60], target = 40
+     * 输出：[10,30] 或者 [30,10]
+     */
+    public int[] twoSum(int[] nums, int target) {
+        /*if (nums.length == 0 || nums.length == 1) return new int[0];
+        int[] res = new int[2];
+        boolean flag = false;
+        for (int i = 0; i < nums.length - 1; i++) {
+            int l = i + 1, r = nums.length -1, newTarget = target - nums[i];
+            while (l <= r){
+                int mid = (l+r)/2;
+                if (nums[mid] > newTarget){
+                    r = mid - 1;
+                }else if (nums[mid] < newTarget){
+                    l = mid + 1;
+                }else {
+                    res[0] = nums[i];
+                    res[1] = newTarget;
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag) break;
+        }
+        if (res[0] + res[1] != target) return new int[0];
+        return res;*/ // 能做出来，但太耗时
+        //TODO K神：双指针(对撞指针)
+        int l = 0, r = nums.length - 1;
+        while (l < r){
+            if (nums[l] + nums[r] > target) r--; //最大的加最小的都比target大，所以最大的数舍弃；
+            else if (nums[l] + nums[r] < target) l++; //最小的加最大的都比target小，所以最小的舍弃
+            else return new int[] { nums[l], nums[r] };
+        }
+        return new int[0];
+    }
 }
