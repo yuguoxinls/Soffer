@@ -516,5 +516,134 @@ public class Solution {
         return Arrays.copyOfRange(arr, 0, k);
     }
 
+    /**
+     * 输入一个整型数组，数组中的一个或连续多个整数组成一个子数组。求所有子数组的和的最大值。
+     * 输入: nums = [-2,1,-3,4,-1,2,1,-5,4]
+     * 输出: 6
+     * 解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
+     */
+    public int maxSubArray(int[] nums) { //TODO 动态规划
+        /**
+         * 动态规划
+         * 1.状态，即子问题。
+         * dp[i] 代表以元素 nums[i] 为结尾的连续子数组最大和。
+         * 2.转移策略，自带剪枝。
+         * 若 dp[i−1]≤0 ，说明 dp[i−1] 对 dp[i] 产生负贡献，即 dp[i−1]+nums[i] 还不如 nums[i] 本身大。
+         * 3.状态转移方程，根据前两步抽象而来。
+         * 当 dp[i−1]>0 时：执行 dp[i] = dp[i-1] + nums[i]；
+         * 当 dp[i−1]≤0 时：执行 dp[i] = nums[i] ；
+         * 4.设计dp数组，保存子问题的解，避免重复计算
+         * 5.实现代码
+         * 整个动态规划，最难的就是定义状态。一旦状态定义出来，表明你已经抽象出了子问题，可以肢解原来的大问题了。
+         */
+        /*int res = nums[0];
+        for (int i = 1; i < nums.length; i++) { // 看不懂，哭了
+            nums[i] = nums[i] + Math.max(nums[i-1], 0);
+            res = Math.max(res, nums[i]);
+        }
+        return res;*/
+        List<Integer> res = new ArrayList<>();
+        res.add(nums[0]);
+        for (int i = 1; i < nums.length; i++) {
+            if (res.get(i-1) < 0){
+                res.add(nums[i]);
+            }else {
+                res.add(res.get(i-1) + nums[i]);
+            }
+        }
+        int max = res.get(0);
+        for (Integer data : res) {
+            if (data > max) max = data;
+        }
+        return max;
+    }
 
+    /**
+     * 在字符串 s 中找出第一个只出现一次的字符。如果没有，返回一个单空格。 s 只包含小写字母。
+     * 输入：s = "abaccdeff"
+     * 输出：'b'
+     * 输入：s = ""
+     * 输出：' '
+     */
+    public char firstUniqChar(String s) {
+        Map<Character, Integer> map = new LinkedHashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (map.containsKey(c)){
+                Integer value = map.get(c);
+                map.put(c, ++value);
+            }else {
+                map.put(c, 1);
+            }
+        }
+        if (s.isEmpty()) return ' ';
+        Set<Character> characters = map.keySet();
+        for (Character character : characters) {
+            if (map.get(character) == 1) return character;
+        }
+        return ' ';
+    }
+
+    /**
+     * 输入两个链表，找出它们的第一个公共节点。
+     */
+    ListNode getIntersectionNode(ListNode headA, ListNode headB) { //TODO
+        /**
+         * 设「第一个公共节点」为 node「链表 headA」的节点数量为 a「链表 headB」的节点数量为 b「两链表的公共尾部」的节点数量为 c，则有：
+         * 头节点 headA 到 node 前，共有 a−c个节点；
+         * 头节点 headB 到 node 前，共有 b−c个节点；
+         * 考虑构建两个节点指针 A, B 分别指向两链表头节点 headA , headB ，做如下操作：
+         * 指针 A 先遍历完链表 headA ，再开始遍历链表 headB ，当走到 node 时，共走步数为：a+(b−c)
+         * 指针 B 先遍历完链表 headB ，再开始遍历链表 headA ，当走到 node 时，共走步数为：b+(a−c)
+         * 此时指针 A , B 重合，并有两种情况：
+         *  若两链表 有 公共尾部 (即 c>0) ：指针 A , B 同时指向「第一个公共节点」node 。
+         *  若两链表 无 公共尾部 (即 c=0) ：指针 A , B 同时指向 null。
+         * 因此返回 A 即可。
+         */
+        ListNode A = headA, B = headB;
+        while (A != B){
+            A = A != null ? A.next : headB;
+            B = B != null ? B.next : headA;
+        }
+        return A;
+    }
+
+    /**
+     * 统计一个数字在排序数组中出现的次数。
+     * 输入: nums = [5,7,7,8,8,10], target = 8
+     * 输出: 2
+     * 输入: nums = [5,7,7,8,8,10], target = 6
+     * 输出: 0
+     */
+    public int search(int[] nums, int target) {
+        int l = 0, r = nums.length - 1;
+        int mid = 0;
+        while (l <= r){
+            mid = (l+r)/2;
+            if (target == nums[mid]) {
+                break;
+            }else if (target > nums[mid]){
+                l = mid + 1;
+            }else {
+                r = mid - 1;
+            }
+
+        }
+        int count = 0;
+        for (int i = mid; i < nums.length; i++) {
+            if (nums[i] == target) {
+                count++;
+            }else {
+                break;
+            }
+        }
+        for (int i = mid - 1; i >= 0; i--) {
+            if (nums[i] == target) {
+                count++;
+            }else {
+                break;
+            }
+        }
+        return count;
+    }
 }

@@ -96,4 +96,22 @@ public class SolutionTest {
         int[] arr = {3,2,1};
         System.out.println(Arrays.toString(solution.getLeastNumbers(arr, 2)));
     }
+
+    @Test
+    public void maxSubArray(){
+        int[] arr = {-2,1,-3,4,-1,2,1,-5,4};
+        Assert.assertEquals(6, solution.maxSubArray(arr));
+    }
+
+    @Test
+    public void firstUniqChar() {
+        String s = "aadadaad";
+        Assert.assertEquals(' ', solution.firstUniqChar(s));
+    }
+
+    @Test
+    public void search() {
+        int[] arr = {5,7,7,8,8,10};
+        Assert.assertEquals(0, solution.search(arr, 1));
+    }
 }
