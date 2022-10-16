@@ -126,4 +126,22 @@ public class SolutionTest {
         int[] nums = {2,7,11,15};
         System.out.println(Arrays.toString(solution.twoSum(nums, 9)));
     }
+
+    @Test
+    public void testReverseWords() {
+        String s = "    ";
+        System.out.println(solution.reverseWords(s));
+    }
+
+    @Test
+    public void testReverseLeftWords() {
+        String s = "abcdefg";
+        System.out.println(solution.reverseLeftWords(s, 2));
+    }
+
+    @Test
+    public void testLastRemaining() {
+        int n = 10, m = 17;
+        System.out.println(solution.lastRemaining(n, m));
+    }
 }

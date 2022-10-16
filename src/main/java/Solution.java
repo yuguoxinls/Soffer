@@ -844,4 +844,187 @@ public class Solution {
         }
         return new int[0];
     }
+
+    /**
+     * 输入一个正整数 target ，输出所有和为 target 的连续正整数序列（至少含有两个数）。
+     * 序列内的数字由小到大排列，不同序列按照首个数字从小到大排列。
+     * 示例 1：
+     * 输入：target = 9
+     * 输出：[[2,3,4],[4,5]]
+     * 示例 2：
+     * 输入：target = 15
+     * 输出：[[1,2,3,4,5],[4,5,6],[7,8]]
+     */
+    public int[][] findContinuousSequence(int target) {
+        //todo k神 滑动窗口 看不懂
+        /**
+         * 算法流程：
+         * 初始化： 左边界 i=1，右边界 j=2，元素和 s=3，结果列表 res；
+         * 循环： 当 i≥j 时跳出；
+         *  当 s>target 时： 向右移动左边界 i=i+1，并更新元素和 s；
+         *  当 s<target 时： 向右移动右边界 j=j+1，并更新元素和 s；
+         *  当 s=target 时： 记录连续整数序列，并向右移动左边界 i=i+1；
+         * 返回值： 返回结果列表 res；
+         */
+        int i = 1, j = 2, s = 3;
+        List<int[]> res = new ArrayList<>();
+        while (i < j){
+            if (s == target){
+                int[] ans = new int[j - i +1];
+                for (int k = i; k <= j; k++) {
+                    ans[k-i] = k;
+                }
+                res.add(ans);
+            }
+            if (s >= target){
+                s -= i;
+                i++;
+            }else {
+                j++;
+                s += j;
+            }
+        }
+        return res.toArray(new int[0][]);
+    }
+
+    /**
+     * 输入一个英文句子，翻转句子中单词的顺序，但单词内字符的顺序不变。为简单起见，标点符号和普通字母一样处理。
+     * 例如输入字符串"I am a student. "，则输出"student. a am I"。
+     * 示例 1：
+     * 输入: "the sky is blue"
+     * 输出: "blue is sky the"
+     * 示例 2：
+     * 输入: "  hello world!  "
+     * 输出: "world! hello"
+     * 解释: 输入字符串可以在前面或者后面包含多余的空格，但是反转后的字符不能包括。
+     * 示例 3：
+     * 输入: "a good   example"
+     * 输出: "example good a"
+     * 解释: 如果两个单词间有多余的空格，将反转后单词间的空格减少到只含一个。
+     */
+    public String reverseWords(String s) {
+        /*String[] split = s.split(" ");
+        if (split.length == 0) return "";
+        StringBuilder res = new StringBuilder(split[split.length - 1]);
+        for (int i = split.length - 2; i >= 0; i--) {
+            if (!split[i].equals("")) res.append(" ").append(split[i]);
+        }
+        return res.toString();*/
+        //todo K神，双指针, 但是测试效果不如上边的方法
+        s = s.trim(); //去掉首尾空格
+        int j = s.length() - 1, i = j;
+        StringBuilder res = new StringBuilder();
+        while (i >= 0){
+            while (i >= 0 && s.charAt(i) != ' ') i--; //从最后一个字母开始，找到第一个空格
+            res.append(s, i+1, j+1).append(" ");
+            while (i>=0 && s.charAt(i) == ' ') i--; //跳过单词间的所有空格，找到下一个单词
+            j = i;
+        }
+        return res.toString().trim();
+    }
+
+    /**
+     * 字符串的左旋转操作是把字符串前面的若干个字符转移到字符串的尾部。请定义一个函数实现字符串左旋转操作的功能。
+     * 比如，输入字符串"abcdefg"和数字2，该函数将返回左旋转两位得到的结果"cdefgab"。
+     * 示例 1：
+     * 输入: s = "abcdefg", k = 2
+     * 输出: "cdefgab"
+     * 示例 2：
+     * 输入: s = "lrloseumgh", k = 6
+     * 输出: "umghlrlose"
+     */
+    public String reverseLeftWords(String s, int n) {
+        // 方法一：切片
+//        return s.substring(n) + s.substring(0, n);
+        // 方法二：遍历拼接
+        /*StringBuilder res = new StringBuilder();
+        for (int i = n; i < s.length(); i++) {
+            res.append(s.charAt(i));
+        }
+        for (int i = 0; i < n; i++) {
+            res.append(s.charAt(i));
+        }
+        return res.toString();*/
+        // 方法三：字符串拼接（不使用StringBuilder）
+        String res = "";
+        for (int i = n; i < s.length(); i++) {
+            res = res + s.charAt(i);
+        }
+        for (int i = 0; i < n; i++) {
+            res = res + s.charAt(i);
+        }
+        return res; // 三个方法，效率逐渐变差
+    }
+
+    /**
+     * 从若干副扑克牌中随机抽 5 张牌，判断是不是一个顺子，即这5张牌是不是连续的。
+     * 2～10为数字本身，A为1，J为11，Q为12，K为13，而大、小王为 0 ，可以看成任意数字。A不能视为 14。
+     * 示例 1:
+     * 输入: [1,2,3,4,5]
+     * 输出: True
+     * 示例 2:
+     * 输入: [0,0,1,2,5]
+     * 输出: True
+     */
+    public boolean isStraight(int[] nums) {
+        /**
+         * 解题思路：
+         * 根据题意，此 5 张牌是顺子的充分条件 如下：
+         *  除大小王外，所有牌无重复 ；
+         *  设此 5 张牌中最大的牌为 max ，最小的牌为 min（大小王除外），则需满足：max−min<5
+         */
+        // 方法一：利用set元素不重复
+        /*Set<Integer> repeat = new HashSet<>();
+        int max = 0;
+        int min = 14;
+        for (int num : nums) {
+            if (num == 0) continue;
+            if (repeat.contains(num)) return false;
+            max = Math.max(max, num);
+            min = Math.min(min, num);
+            repeat.add(num);
+        }
+        return max - min < 5;*/
+        // 方法二：排序加遍历，先对数组进行排序，排序后相同元素相邻
+        int joker = 0; //大小王的数量
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 0) joker++; //统计大小王的数量
+            else if (nums[i] == nums[i+1]) return false; // 如果有除了大小王外的相同元素，直接返回false
+        }
+        return nums[4] - nums[joker] < 5; // 排序后，max = nums[4]， min = nums[joker]
+
+    }
+
+    /**
+     * 0,1,···,n-1这n个数字排成一个圆圈，从数字0开始，每次从这个圆圈里删除第m个数字（删除后从下一个数字开始计数）。求出这个圆圈里剩下的最后一个数字。
+     * 例如，0、1、2、3、4这5个数字组成一个圆圈，从数字0开始每次删除第3个数字，则删除的前4个数字依次是2、0、4、1，因此最后剩下的数字是3。
+     * 示例 1：
+     * 输入: n = 5, m = 3
+     * 输出: 3
+     * 示例 2：
+     * 输入: n = 10, m = 17
+     * 输出: 2
+     */
+    public int lastRemaining(int n, int m) {
+        /*List<Integer> tmp = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            tmp.add(i);
+        }
+        int j = 0;
+        while (tmp.size() > 1){
+            j = j + (m - 1);
+            if (j > tmp.size() - 1) j = j % tmp.size();
+            tmp.remove(j);
+        }
+        return tmp.get(0);*/ // 效率太低
+        //todo k神 动态规划
+        int x = 0;
+        for (int i = 2; i <= n; i++) {
+            x = (x + m) % i;
+        }
+        return x;
+    }
+
+
 }
