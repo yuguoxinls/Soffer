@@ -1026,5 +1026,77 @@ public class Solution {
         return x;
     }
 
+    /**
+     * 写一个函数，求两个整数之和，要求在函数体内不得使用 “+”、“-”、“*”、“/” 四则运算符号。
+     * 输入: a = 1, b = 1
+     * 输出: 2
+     */
+    public int add(int a, int b) { //todo 看！！！
+        /**
+         * 显然该题要使用位运算，定义两数之和为s，则
+         *  s = a和b的非进位和 + 进位
+         *  非进位和：a ^ b (a b异或)
+         *  进位：(a & b) << 1 (a 与 b 然后左移一位)
+         * 由于题目要求不能出现“+”，因此 s = a和b的非进位和 + 进位 中的“+”可用递归来替代
+         */
+        if (b == 0) return a;
+        return add(a ^ b, (a & b) << 1);
+    }
+
+    /**
+     * 给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。
+     * 百度百科中最近公共祖先的定义为：
+     *  “对于有根树T的两个结点p、q，最近公共祖先表示为一个结点x，满足x是p、q的祖先且x的深度尽可能大（一个节点也可以是它自己的祖先）。”
+     * 输入: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 8
+     * 输出: 6
+     * 解释: 节点 2 和节点 8 的最近公共祖先是 6。
+     * 输入: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 4
+     * 输出: 2
+     * 解释: 节点 2 和节点 4 的最近公共祖先是 2, 因为根据定义最近公共祖先节点可以为节点本身。
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) { //todo
+        /**
+         * 祖先的定义：节点root是节点q的祖先。当且仅当q在root的左/右子树，或者q == root
+         * 最近的公共祖先：root是p和q的公共祖先，若root.left和root.right都不是p和q的公共祖先，则root是最近的公共祖先
+         * 因此，若root是p和q的公共祖先，则有以下3种情况：
+         *  1. p和q分别在root的左右子树中；
+         *  2. p == root，且q在root的左/右子树中；
+         *  3. q == root，且p在root的左/右子树中；
+         */
+        // 方法一：遍历
+        /*while (root != null){
+            if (root.val < p.val && root.val < q.val){
+                // 说明p和q都在root的右子树中
+                root = root.right;
+            }else if (root.val > p.val && root.val > q.val){
+                //说明p和q都在root的左子树中
+                root = root.left;
+            }else break;
+        }
+        return root;*/
+        // 方法二：递归
+        if (root.val < p.val && root.val < q.val) {
+            // 说明p和q都在root的右子树中
+            return lowestCommonAncestor(root.right, p, q);
+        }
+        if (root.val > p.val && root.val > q.val){
+            return lowestCommonAncestor(root.left, p, q);
+        }
+        return root;
+    }
+
+    /**
+     * 上题还有变体：将二叉搜索树换为了二叉树，此时没有节点值之间的大小关系了
+     */
+    public TreeNode lowestCommonAncestorWithCommonTree(TreeNode root, TreeNode p, TreeNode q) { //todo
+        if (root == null) return null;
+        if (p == root || q == root) return root; // 如果pq有一个是根节点，则最近公共祖先一定是root
+        TreeNode left = lowestCommonAncestorWithCommonTree(root.left, p, q); // 在root的左子树中寻找p q，将其定义为left
+        TreeNode right = lowestCommonAncestorWithCommonTree(root.right, p, q); // 在root的右子树中寻找p q，将其定义为right
+        if (left == null) return right; // 说明左子树中没找到 那么就在right中
+        else if (right == null) return left; // 同理，右子树没找到，在left中
+        else return root; // left和right都不为空，说明p和q在root异侧，则root是其最近公共祖先
+    }
+
 
 }

@@ -144,4 +144,10 @@ public class SolutionTest {
         int n = 10, m = 17;
         System.out.println(solution.lastRemaining(n, m));
     }
+
+    @Test
+    public void add() {
+        int a = 0, b = 1;
+        System.out.println(solution.add(a, b));
+    }
 }
