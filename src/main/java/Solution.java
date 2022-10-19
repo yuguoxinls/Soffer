@@ -71,7 +71,7 @@ public class Solution {
      * 输入：n = 5
      * 输出：5
      */
-    public int fib(int n) { //TODO 重点看
+    public int fib(int n) { //TODO got it
         // 第一反应想到的是递归，但是随着n的增大，递归需要消耗大量的资源，导致超时
         /*if (n == 0){
             return 0;
@@ -106,7 +106,7 @@ public class Solution {
      * 输入：n = 0
      * 输出：1
      */
-    public int numWays(int n) { //TODO 重点看
+    public int numWays(int n) { //TODO got it
         // 此类求 多少种可能性 的题目一般都有 递推性质 ，即 f(n) 和 f(n-1)...f(1) 之间是有联系的。
         // 假设跳上一个 n 级的台阶总共有f(n)种跳法，而在完成n级台阶的最后一跳时，只会有两种可能
         //      1. 跳1级台阶，则之前的n-1级台阶有f(n-1)种跳法
@@ -132,14 +132,24 @@ public class Solution {
      * 输入：numbers = [2,2,2,0,1]
      * 输出：0
      */
-    public int minArray(int[] numbers) {
+    public int minArray(int[] numbers) { // TODO: 2022/10/19 有序数组 首先二分
+        int l = 0, r = numbers.length - 1;
+        while (l < r){
+            int m = l + (r-l)/2;
+            if (numbers[m] > numbers[r]) l = m + 1;
+            else if (numbers[m] < numbers[r]) r = m;
+            else r--;
+        }
+        return numbers[l];
+    }
+    /*public int minArray(int[] numbers) {
         for (int i = 0; i < numbers.length-1; i++) {
             if (numbers[i] > numbers[i+1]){
                 return numbers[i+1];
             }
         }
         return numbers[0];
-    }
+    }*/
 
     /**
      * 编写一个函数，输入是一个无符号整数（以二进制串的形式），返回其二进制表达式中数字位数为 '1' 的个数
