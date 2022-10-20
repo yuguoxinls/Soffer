@@ -165,7 +165,7 @@ public class Solution {
      * 输出：31
      * 解释：输入的二进制串 11111111111111111111111111111101 中，共有 31 位为 '1'。
      */
-    public int hammingWeight(int n) { //TODO 重点看
+    public int hammingWeight(int n) { //TODO 重点看 看一下位运算的相关知识
         // 根据 与运算 定义，设二进制数字 n ，则有：
         // 若 n&1=0 ，则 n 二进制 最右一位 为 0 ；
         // 若 n&1=1 ，则 n 二进制 最右一位 为 1 。
@@ -183,7 +183,7 @@ public class Solution {
     /**
      * 输入数字 n，按顺序打印出从 1 到最大的 n 位十进制数。比如输入 3，则打印出 1、2、3 一直到最大的 3 位数 999。
      */
-    public int[] printNumbers(int n) {
+    public int[] printNumbers(int n) { // TODO: 2022/10/20 这道题比较简单，但是考虑大数越界，就会复杂了，要看一下
         int count = (int) (Math.pow(10, n) - 1);
         int[] res = new int[count];
         for (int i = 0; i < res.length; i++) {
@@ -198,7 +198,7 @@ public class Solution {
      * head = [4,5,1,9], val = 5
      * 输出: [4,1,9]
      */
-    public ListNode deleteNode(ListNode head, int val) {
+    public ListNode deleteNode(ListNode head, int val) { // TODO: 2022/10/20 got it
         if (head == null){
             return null;
         }
