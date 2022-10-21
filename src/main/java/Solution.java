@@ -71,7 +71,7 @@ public class Solution {
      * 输入：n = 5
      * 输出：5
      */
-    public int fib(int n) { //TODO got it
+    public int fib(int n) {
         // 第一反应想到的是递归，但是随着n的增大，递归需要消耗大量的资源，导致超时
         /*if (n == 0){
             return 0;
@@ -106,7 +106,7 @@ public class Solution {
      * 输入：n = 0
      * 输出：1
      */
-    public int numWays(int n) { //TODO got it
+    public int numWays(int n) {
         // 此类求 多少种可能性 的题目一般都有 递推性质 ，即 f(n) 和 f(n-1)...f(1) 之间是有联系的。
         // 假设跳上一个 n 级的台阶总共有f(n)种跳法，而在完成n级台阶的最后一跳时，只会有两种可能
         //      1. 跳1级台阶，则之前的n-1级台阶有f(n-1)种跳法
@@ -198,7 +198,7 @@ public class Solution {
      * head = [4,5,1,9], val = 5
      * 输出: [4,1,9]
      */
-    public ListNode deleteNode(ListNode head, int val) { // TODO: 2022/10/20 got it
+    public ListNode deleteNode(ListNode head, int val) { //
         if (head == null){
             return null;
         }
@@ -259,7 +259,7 @@ public class Solution {
      *  指针 j 从右向左寻找奇数；
      *  将 偶数 nums[i] 和 奇数 nums[j] 交换。
      */
-    public int[] exchange(int[] nums) { //TODO 重点看
+    public int[] exchange(int[] nums) {
         int i = 0;
         int j = nums.length - 1;
         int tmp;
@@ -304,7 +304,7 @@ public class Solution {
      * 输入: 1->2->3->4->5->NULL
      * 输出: 5->4->3->2->1->NULL
      */
-    public ListNode reverseList(ListNode head) { //TODO 重点看
+    public ListNode reverseList(ListNode head) { //TODO 重点看+1 利用三个指针，原地修改链表走向，实现反转
         ListNode cur = head, pre = null; //双指针，一个指向头节点，一个指向最后
         while (cur != null){
             ListNode tmp = cur.next;
