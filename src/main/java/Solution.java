@@ -320,7 +320,7 @@ public class Solution {
      * 输入：1->2->4, 1->3->4
      * 输出：1->1->2->3->4->4
      */
-    public ListNode mergeTwoLists(ListNode l1, ListNode l2) { //TODO 重点看
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         // 显然要定义两个指针来遍历两个链表，每次取两个指针中的最小值，放到合并后的链表中
         // 这里的重点是：合并后的链表没有第一个节点，导致无法将获得的第一个节点存到合并后的链表中
         // 这时可以定义一个伪头节点，作为合并后链表的第一个节点
@@ -351,7 +351,6 @@ public class Solution {
      * 输入：root = [4,2,7,1,3,6,9]
      * 输出：[4,7,2,9,6,3,1]
      */
-    //TODO 重点看
     public TreeNode mirrorTree(TreeNode root) { // mirrorTree会对当前的二叉树镜像
         // 看成一个递归问题，交换每个节点的左 / 右子节点，即可生成二叉树的镜像
         if (root == null) return null; // 特例
@@ -368,7 +367,7 @@ public class Solution {
      * 输入：root = [1,2,2,null,3,null,3]
      * 输出：false
      */
-    public boolean isSymmetric(TreeNode root) { //TODO 重点看
+    public boolean isSymmetric(TreeNode root) {
         // 题解：二叉树对称，当且仅当其左右子树对称
             // L.val == R.val
             // L.left.val == R.right.val
