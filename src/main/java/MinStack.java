@@ -1,7 +1,5 @@
-import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * 定义栈的数据结构，请在该类型中实现一个能够得到栈的最小元素的 min 函数在该栈中，调用 min、push 及 pop 的时间复杂度都是 O(1)。
@@ -14,40 +12,7 @@ import java.util.List;
  * minStack.top();      --> 返回 0.
  * minStack.min();   --> 返回 -2.
  */
-/*
-class MinStack {
-
-    private List<Integer> stack;
-
-    */
-/** initialize your data structure here. *//*
-
-    public MinStack() {
-        stack = new ArrayList<>();
-    }
-    
-    public void push(int x) {
-        stack.add(x);
-//        if (x < min) min = x;
-    }
-    
-    public void pop() {
-        stack.remove(stack.size() - 1);
-    }
-    
-    public int top() {
-        return stack.get(stack.size() - 1);
-    }
-    
-    public int min() {
-        Integer min = stack.get(0);
-        for (Integer data : stack) {
-            if (data < min) min = data;
-        }
-        return min;
-    }
-}*/
-//TODO 官方题解
+//TODO 官方题解 对于栈结构，更推荐使用 Deque，而不是 Stack
 class MinStack {
     // 本题的重点在于要求 min 函数的时间复杂度为O(1)，简单来想的话，取最小值是要遍历的，时间复杂度为O(N)
     // 官方用了辅助栈的方法，定义一个辅助栈来存储最小值

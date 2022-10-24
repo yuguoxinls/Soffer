@@ -28,7 +28,7 @@ public class Solution {
      * 输入：s = "We are happy."
      * 输出："We%20are%20happy."
      */
-    public String replaceSpace(String s) { //TODO 重点看
+    public String replaceSpace(String s) { //TODO 重点看 +1
         StringBuilder res = new StringBuilder(); // StringBuilder是一个可变的字符串类，我们可以把它看成是一个容器，处理字符串性能比String好
         for (int i = 0; i < s.length(); i++) {  // 用res存放最后结果，遍历给定字符串，如果是空格，就向res中添加"%20"，不是空格就添加原字符
             char c = s.charAt(i);
@@ -71,7 +71,7 @@ public class Solution {
      * 输入：n = 5
      * 输出：5
      */
-    public int fib(int n) {
+    public int fib(int n) { //TODO 重点看 +1
         // 第一反应想到的是递归，但是随着n的增大，递归需要消耗大量的资源，导致超时
         /*if (n == 0){
             return 0;
@@ -85,7 +85,7 @@ public class Solution {
         }else {
             return (int) res;
         }*/
-        // 采用动态规划，使用3个int类型数据来存储斐波那契数列，这样省去了每次递归计算的资源浪费
+        // 采用 **动态规划**，使用3个int类型数据来存储斐波那契数列，这样省去了每次递归计算的资源浪费
         // 以斐波那契数列性质 f(n + 1) = f(n) + f(n - 1)f(n+1)=f(n)+f(n−1) 为转移方程。
         int a = 0, b = 1, sum;
         for (int i = 0; i < n; i++) {
@@ -106,7 +106,7 @@ public class Solution {
      * 输入：n = 0
      * 输出：1
      */
-    public int numWays(int n) {
+    public int numWays(int n) { //TODO 重点看
         // 此类求 多少种可能性 的题目一般都有 递推性质 ，即 f(n) 和 f(n-1)...f(1) 之间是有联系的。
         // 假设跳上一个 n 级的台阶总共有f(n)种跳法，而在完成n级台阶的最后一跳时，只会有两种可能
         //      1. 跳1级台阶，则之前的n-1级台阶有f(n-1)种跳法
@@ -132,24 +132,14 @@ public class Solution {
      * 输入：numbers = [2,2,2,0,1]
      * 输出：0
      */
-    public int minArray(int[] numbers) { // TODO: 2022/10/19 有序数组 首先二分
-        int l = 0, r = numbers.length - 1;
-        while (l < r){
-            int m = l + (r-l)/2;
-            if (numbers[m] > numbers[r]) l = m + 1;
-            else if (numbers[m] < numbers[r]) r = m;
-            else r--;
-        }
-        return numbers[l];
-    }
-    /*public int minArray(int[] numbers) {
+    public int minArray(int[] numbers) {
         for (int i = 0; i < numbers.length-1; i++) {
             if (numbers[i] > numbers[i+1]){
                 return numbers[i+1];
             }
         }
         return numbers[0];
-    }*/
+    }
 
     /**
      * 编写一个函数，输入是一个无符号整数（以二进制串的形式），返回其二进制表达式中数字位数为 '1' 的个数
@@ -165,7 +155,7 @@ public class Solution {
      * 输出：31
      * 解释：输入的二进制串 11111111111111111111111111111101 中，共有 31 位为 '1'。
      */
-    public int hammingWeight(int n) { //TODO 重点看 看一下位运算的相关知识
+    public int hammingWeight(int n) { //TODO 重点看
         // 根据 与运算 定义，设二进制数字 n ，则有：
         // 若 n&1=0 ，则 n 二进制 最右一位 为 0 ；
         // 若 n&1=1 ，则 n 二进制 最右一位 为 1 。
@@ -183,7 +173,7 @@ public class Solution {
     /**
      * 输入数字 n，按顺序打印出从 1 到最大的 n 位十进制数。比如输入 3，则打印出 1、2、3 一直到最大的 3 位数 999。
      */
-    public int[] printNumbers(int n) { // TODO: 2022/10/20 这道题比较简单，但是考虑大数越界，就会复杂了，要看一下
+    public int[] printNumbers(int n) {
         int count = (int) (Math.pow(10, n) - 1);
         int[] res = new int[count];
         for (int i = 0; i < res.length; i++) {
@@ -198,7 +188,7 @@ public class Solution {
      * head = [4,5,1,9], val = 5
      * 输出: [4,1,9]
      */
-    public ListNode deleteNode(ListNode head, int val) { //
+    public ListNode deleteNode(ListNode head, int val) {
         if (head == null){
             return null;
         }
@@ -259,7 +249,7 @@ public class Solution {
      *  指针 j 从右向左寻找奇数；
      *  将 偶数 nums[i] 和 奇数 nums[j] 交换。
      */
-    public int[] exchange(int[] nums) {
+    public int[] exchange(int[] nums) { //TODO 重点看
         int i = 0;
         int j = nums.length - 1;
         int tmp;
@@ -304,7 +294,7 @@ public class Solution {
      * 输入: 1->2->3->4->5->NULL
      * 输出: 5->4->3->2->1->NULL
      */
-    public ListNode reverseList(ListNode head) { //TODO 重点看+1 利用三个指针，原地修改链表走向，实现反转
+    public ListNode reverseList(ListNode head) { //TODO 重点看
         ListNode cur = head, pre = null; //双指针，一个指向头节点，一个指向最后
         while (cur != null){
             ListNode tmp = cur.next;
@@ -351,6 +341,7 @@ public class Solution {
      * 输入：root = [4,2,7,1,3,6,9]
      * 输出：[4,7,2,9,6,3,1]
      */
+    //TODO 重点看
     public TreeNode mirrorTree(TreeNode root) { // mirrorTree会对当前的二叉树镜像
         // 看成一个递归问题，交换每个节点的左 / 右子节点，即可生成二叉树的镜像
         if (root == null) return null; // 特例
@@ -442,6 +433,25 @@ public class Solution {
      *   [15,7]
      * ]
      */
+    /*public List<List<Integer>> f(TreeNode root) {
+        if (root == null) return new ArrayList<>();
+        List<List<Integer>> ans = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()){
+            List<Integer> tmp = new ArrayList<>(); // 存放每一层节点的值
+            int queueSize = queue.size();
+            while (queueSize > 0){
+                TreeNode node = queue.poll();
+                tmp.add(node.val);
+                if (node.left != null) queue.add(node.left);
+                if (node.right != null) queue.add(node.right);
+                queueSize--;
+            }
+            ans.add(tmp);
+        }
+        return ans;
+    }*/
     public List<List<Integer>> levelOrder(TreeNode root) { // TODO 看！！！！！！
         // 题目要求的二叉树的 从上至下 打印（即按层打印），又称为二叉树的 广度优先搜索（BFS）。BFS 通常借助 队列 的先入先出特性来实现。
         Queue<TreeNode> queue = new LinkedList<>(); // 用于存放待打印的节点
