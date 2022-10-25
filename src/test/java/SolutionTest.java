@@ -150,4 +150,5 @@ public class SolutionTest {
         int a = 0, b = 1;
         System.out.println(solution.add(a, b));
     }
+
 }

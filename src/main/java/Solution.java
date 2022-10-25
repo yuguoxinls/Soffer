@@ -15,7 +15,7 @@ public class Solution {
             if (!add){
                 return num;
             }*/
-            if (set.contains(num)){ //对数组中的每个元素，如果该元素已经存在于集合中，说明该元素是重复的，直接返回该元素
+            if (set.contains(num)) { //对数组中的每个元素，如果该元素已经存在于集合中，说明该元素是重复的，直接返回该元素
                 return num;
             }
             set.add(num); //将其添加到集合中
@@ -32,9 +32,9 @@ public class Solution {
         StringBuilder res = new StringBuilder(); // StringBuilder是一个可变的字符串类，我们可以把它看成是一个容器，处理字符串性能比String好
         for (int i = 0; i < s.length(); i++) {  // 用res存放最后结果，遍历给定字符串，如果是空格，就向res中添加"%20"，不是空格就添加原字符
             char c = s.charAt(i);
-            if (c == ' '){
+            if (c == ' ') {
                 res.append("%20");
-            }else {
+            } else {
                 res.append(c);
             }
         }
@@ -49,7 +49,7 @@ public class Solution {
     public int[] reversePrint(ListNode head) {
         Stack<Integer> stack = new Stack<>();
         ListNode handler = head;
-        while (handler != null){
+        while (handler != null) {
             stack.push(handler.val);
             handler = handler.next;
         }
@@ -62,8 +62,8 @@ public class Solution {
 
     /**
      * 写一个函数，输入 n ，求斐波那契（Fibonacci）数列的第 n 项（即 F(N)）。斐波那契数列的定义如下：
-        *  F(0) = 0, F(1)= 1
-        *  F(N) = F(N - 1) + F(N - 2), 其中 N > 1.
+     * F(0) = 0, F(1)= 1
+     * F(N) = F(N - 1) + F(N - 2), 其中 N > 1.
      * 斐波那契数列由 0 和 1 开始，之后的斐波那契数就是由之前的两数相加而得出。
      * 答案需要取模 1e9+7（1000000007），如计算初始结果为：1000000008，请返回 1。
      * 输入：n = 2
@@ -89,7 +89,7 @@ public class Solution {
         // 以斐波那契数列性质 f(n + 1) = f(n) + f(n - 1)f(n+1)=f(n)+f(n−1) 为转移方程。
         int a = 0, b = 1, sum;
         for (int i = 0; i < n; i++) {
-            sum = (a+b) % 1000000007;
+            sum = (a + b) % 1000000007;
             a = b;
             b = sum;
         }
@@ -115,7 +115,7 @@ public class Solution {
         // 可见，这是一个斐波那契数列问题：f(0)=1, f(1)=1, f(2)=2
         int a = 1, b = 1, sum;
         for (int i = 0; i < n; i++) {
-            sum = (a+b) % 1000000007;
+            sum = (a + b) % 1000000007;
             a = b;
             b = sum;
         }
@@ -133,9 +133,9 @@ public class Solution {
      * 输出：0
      */
     public int minArray(int[] numbers) {
-        for (int i = 0; i < numbers.length-1; i++) {
-            if (numbers[i] > numbers[i+1]){
-                return numbers[i+1];
+        for (int i = 0; i < numbers.length - 1; i++) {
+            if (numbers[i] > numbers[i + 1]) {
+                return numbers[i + 1];
             }
         }
         return numbers[0];
@@ -163,8 +163,8 @@ public class Solution {
         // 判断 n 最右一位是否为 1 ，根据结果计数。
         // 将 n 右移一位（本题要求把数字 n 看作无符号数，因此使用 无符号右移 操作）。
         int res = 0;
-        while (n != 0){
-            res = res + (n&1);
+        while (n != 0) {
+            res = res + (n & 1);
             n >>>= 1;
         }
         return res;
@@ -177,7 +177,7 @@ public class Solution {
         int count = (int) (Math.pow(10, n) - 1);
         int[] res = new int[count];
         for (int i = 0; i < res.length; i++) {
-            res[i] = i+1;
+            res[i] = i + 1;
         }
         return res;
     }
@@ -189,15 +189,15 @@ public class Solution {
      * 输出: [4,1,9]
      */
     public ListNode deleteNode(ListNode head, int val) {
-        if (head == null){
+        if (head == null) {
             return null;
         }
-        if (head.val == val){
+        if (head.val == val) {
             return head.next;
         }
         ListNode tmp = head;
-        while ((tmp != null)&&(tmp.next != null)){
-            if (tmp.next.val == val){
+        while ((tmp != null) && (tmp.next != null)) {
+            if (tmp.next.val == val) {
                 //
                 tmp.next = tmp.next.next;
             }
@@ -243,19 +243,20 @@ public class Solution {
         }
         return res;
     }*/
+
     /**
      * 题解：考虑定义双指针 i , j 分列数组左右两端，循环执行：
-     *  指针 i 从左向右寻找偶数；
-     *  指针 j 从右向左寻找奇数；
-     *  将 偶数 nums[i] 和 奇数 nums[j] 交换。
+     * 指针 i 从左向右寻找偶数；
+     * 指针 j 从右向左寻找奇数；
+     * 将 偶数 nums[i] 和 奇数 nums[j] 交换。
      */
     public int[] exchange(int[] nums) { //TODO 重点看
         int i = 0;
         int j = nums.length - 1;
         int tmp;
-        while (i<j){
-            while ((i<j)&&(nums[i]%2!=0)) i++;
-            while ((i<j)&&(nums[j]%2==0)) j--;
+        while (i < j) {
+            while ((i < j) && (nums[i] % 2 != 0)) i++;
+            while ((i < j) && (nums[j] % 2 == 0)) j--;
             tmp = nums[i];
             nums[i] = nums[j];
             nums[j] = tmp;
@@ -270,19 +271,19 @@ public class Solution {
      * 返回链表 4->5.
      */
     public ListNode getKthFromEnd(ListNode head, int k) {
-        if (head == null){
+        if (head == null) {
             return null;
         }
         //1. get length
         int len = 0;
         ListNode tmp = head;
-        while (tmp != null){
+        while (tmp != null) {
             len++;
             tmp = tmp.next;
         }
         //2. move head
         int step = len - k;
-        while (step != 0){
+        while (step != 0) {
             head = head.next;
             step--;
         }
@@ -296,7 +297,7 @@ public class Solution {
      */
     public ListNode reverseList(ListNode head) { //TODO 重点看
         ListNode cur = head, pre = null; //双指针，一个指向头节点，一个指向最后
-        while (cur != null){
+        while (cur != null) {
             ListNode tmp = cur.next;
             cur.next = pre;
             pre = cur;
@@ -316,21 +317,21 @@ public class Solution {
         // 这时可以定义一个伪头节点，作为合并后链表的第一个节点
         ListNode dum = new ListNode(0);
         ListNode cur = dum;
-        while (l1 != null && l2 != null){
-            if (l1.val <= l2.val){
+        while (l1 != null && l2 != null) {
+            if (l1.val <= l2.val) {
                 cur.next = l1;
                 cur = cur.next;
                 l1 = l1.next;
-            }else {
+            } else {
                 cur.next = l2;
                 cur = cur.next;
                 l2 = l2.next;
             }
         }
-        if (l2 == null){
+        if (l2 == null) {
             cur.next = l1;
         }
-        if (l1 == null){
+        if (l1 == null) {
             cur.next = l2;
         }
         return dum.next;
@@ -360,12 +361,13 @@ public class Solution {
      */
     public boolean isSymmetric(TreeNode root) {
         // 题解：二叉树对称，当且仅当其左右子树对称
-            // L.val == R.val
-            // L.left.val == R.right.val
-            // L.right.val == R.left.val
-            // 上述三步，用一个函数来表示，专门来判断每对节点是否对称
+        // L.val == R.val
+        // L.left.val == R.right.val
+        // L.right.val == R.left.val
+        // 上述三步，用一个函数来表示，专门来判断每对节点是否对称
         return root == null || recur(root.left, root.right);
     }
+
     private boolean recur(TreeNode L, TreeNode R) {
         if (L == null && R == null) return true;
         if (L == null || R == null || L.val != R.val) return false;
@@ -379,17 +381,17 @@ public class Solution {
      */
     public int[] spiralOrder(int[][] matrix) { //TODO 重点中的重点！！！
         // 题解：按照题目要求，打印有四个方向
-            //1. 从左到右
-            //2. 从上到下
-            //3. 从右到左
-            //4. 从下到上
+        //1. 从左到右
+        //2. 从上到下
+        //3. 从右到左
+        //4. 从下到上
         // 这样就完成了一圈的打印，因此可定义4个变量，来表示边界
         // 可以使用 x++ 和 ++x 的不同来提高效率
         if (matrix.length == 0) return new int[0]; //特殊情况
-        int l = 0, t = 0, r = matrix[0].length-1, b = matrix.length-1;
-        int[] res = new int[(b+1) * (r+1)];
+        int l = 0, t = 0, r = matrix[0].length - 1, b = matrix.length - 1;
+        int[] res = new int[(b + 1) * (r + 1)];
         int x = 0; //表示res数组的索引
-        while (true){
+        while (true) {
             // left to right
             for (int i = l; i <= r; i++) {
                 res[x++] = matrix[t][i]; // 先执行表达式，最后对x进行自增
@@ -428,9 +430,9 @@ public class Solution {
      * 例如: 给定二叉树: [3,9,20,null,null,15,7],
      * 返回其层次遍历结果：
      * [
-     *   [3],
-     *   [9,20],
-     *   [15,7]
+     * [3],
+     * [9,20],
+     * [15,7]
      * ]
      */
     /*public List<List<Integer>> f(TreeNode root) {
@@ -457,9 +459,9 @@ public class Solution {
         Queue<TreeNode> queue = new LinkedList<>(); // 用于存放待打印的节点
         List<List<Integer>> res = new ArrayList<>(); // 用于存放最后结果
         if (root != null) queue.add(root); // 先把根节点放进去
-        while (!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             List<Integer> tmp = new ArrayList<>(); //用于存放当前层的所有节点值
-            for (int i = queue.size(); i >0 ; i--) { // 由于queue中存放了待打印的节点，因此其长度为当前层所需要的数量，也就是循环这么多次，向tmp中添加这么多次数的值
+            for (int i = queue.size(); i > 0; i--) { // 由于queue中存放了待打印的节点，因此其长度为当前层所需要的数量，也就是循环这么多次，向tmp中添加这么多次数的值
                 TreeNode node = queue.poll(); // 每一次从队列中取出节点
                 tmp.add(node.val); // 获取值，放到tmp中
                 if (node.left != null) queue.add(node.left); // 当前节点的值获取完毕，把他的左右节点添加到队列中，待后续循环处理
@@ -511,9 +513,9 @@ public class Solution {
         } // 冒泡排序效率太低，数组很大的话，时间空间复杂度大，可更换其他排序方法
         return nums[nums.length/2];*/
         // 方法三：摩尔投票法
-        int x = 0, votes = 0; //TODO 太妙了！！！
-        for(int num : nums){
-            if(votes == 0) x = num;
+        int x = 0, votes = 0;
+        for (int num : nums) {
+            if (votes == 0) x = num;
             votes += num == x ? 1 : -1; // 如果num == x，votes就自增1；否则自减1
         }
         return x;
@@ -522,17 +524,27 @@ public class Solution {
     /**
      * 输入整数数组 arr ，找出其中最小的 k 个数。例如，输入4、5、1、6、2、7、3、8这8个数字，则最小的4个数字是1、2、3、4。
      */
-    public int[] getLeastNumbers(int[] arr, int k) { // TODO 待优化，使用堆的思想(官方)或者基于快排的数组划分(K神)
-        for (int i = 0; i < arr.length-1; i++) {
-            for (int j = 0; j < arr.length - 1; j++) {
-                if (arr[j] > arr[j+1]){
-                    int tmp = arr[j];
-                    arr[j] = arr[j+1];
-                    arr[j+1] = tmp;
-                }
-            }
+    public int[] getLeastNumbers(int[] arr, int k) { // TODO 快排思想 哨兵划分 + 递归
+        if (k >= arr.length) return arr;
+        return quickSort(arr, k, 0, arr.length - 1);
+    }
+    private int[] quickSort(int[] arr, int k, int l, int r) {
+        if (l>=r) return arr;
+        int i = l, j = r;
+        while (i<j){
+            while (i<j&&arr[j]>=arr[l]) j--;
+            while (i<j&&arr[i]<=arr[l]) i++;
+            swap(arr, i, j);
         }
-        return Arrays.copyOfRange(arr, 0, k);
+        swap(arr, i, l);
+        if (i>k) quickSort(arr, k, l, i-1);
+        if (i<k) quickSort(arr, k, i+1,r);
+        return Arrays.copyOf(arr, k);
+    }
+    private void swap(int[] arr, int i, int j) {
+        int tmp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
     }
 
     /**
@@ -541,7 +553,7 @@ public class Solution {
      * 输出: 6
      * 解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
      */
-    public int maxSubArray(int[] nums) { //TODO 动态规划
+    public int maxSubArray(int[] nums) { //TODO 动态规划 依旧看不懂
         /**
          * 动态规划
          * 1.状态，即子问题。
@@ -564,10 +576,10 @@ public class Solution {
         List<Integer> res = new ArrayList<>();
         res.add(nums[0]);
         for (int i = 1; i < nums.length; i++) {
-            if (res.get(i-1) < 0){
+            if (res.get(i - 1) < 0) {
                 res.add(nums[i]);
-            }else {
-                res.add(res.get(i-1) + nums[i]);
+            } else {
+                res.add(res.get(i - 1) + nums[i]);
             }
         }
         int max = res.get(0);
@@ -588,10 +600,10 @@ public class Solution {
         Map<Character, Integer> map = new LinkedHashMap<>();
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
-            if (map.containsKey(c)){
+            if (map.containsKey(c)) {
                 Integer value = map.get(c);
                 map.put(c, ++value);
-            }else {
+            } else {
                 map.put(c, 1);
             }
         }
@@ -620,7 +632,7 @@ public class Solution {
          * 因此返回 A 即可。
          */
         ListNode A = headA, B = headB;
-        while (A != B){
+        while (A != B) {
             A = A != null ? A.next : headB;
             B = B != null ? B.next : headA;
         }
@@ -637,13 +649,13 @@ public class Solution {
     public int search(int[] nums, int target) {
         int l = 0, r = nums.length - 1;
         int mid = 0;
-        while (l <= r){
-            mid = (l+r)/2;
+        while (l <= r) {
+            mid = (l + r) / 2;
             if (target == nums[mid]) {
                 break;
-            }else if (target > nums[mid]){
+            } else if (target > nums[mid]) {
                 l = mid + 1;
-            }else {
+            } else {
                 r = mid - 1;
             }
 
@@ -652,14 +664,14 @@ public class Solution {
         for (int i = mid; i < nums.length; i++) {
             if (nums[i] == target) {
                 count++;
-            }else {
+            } else {
                 break;
             }
         }
         for (int i = mid - 1; i >= 0; i--) {
             if (nums[i] == target) {
                 count++;
-            }else {
+            } else {
                 break;
             }
         }
@@ -699,9 +711,9 @@ public class Solution {
         return nums.length;*/
         //TODO K神二分法
         int l = 0;
-        int r = nums.length-1;
-        while (l<=r){
-            int mid = (l+r)/2;
+        int r = nums.length - 1;
+        while (l <= r) {
+            int mid = (l + r) / 2;
             if (nums[mid] == mid) l = mid + 1;
             else r = mid - 1;
         }
@@ -729,21 +741,22 @@ public class Solution {
      */
     /*int res, k;
     public int kthLargest(TreeNode root, int k) { // TODO K神解答，看不懂。。。
-        *//**
-         * 二叉搜索树的中序遍历得到的是升序序列：左、根、右，算法如下：
-         * // 打印中序遍历
-         * void dfs(TreeNode root) {
-         *     if(root == null) return;
-         *     dfs(root.left); // 左
-         *     System.out.println(root.val); // 根
-         *     dfs(root.right); // 右
-         * }
-         * 为适应本题，可改造上述算法：
-         *  1. 顺序改为右、根、左
-         *  2. 递归遍历时计数，统计当前节点的序号
-         *  3. 递归到第 k个节点时，应记录结果 res ；
-         *  4. 记录结果后，后续的遍历即失去意义，应提前终止（即返回）。
-         *//*
+        */
+    /**
+     * 二叉搜索树的中序遍历得到的是升序序列：左、根、右，算法如下：
+     * // 打印中序遍历
+     * void dfs(TreeNode root) {
+     * if(root == null) return;
+     * dfs(root.left); // 左
+     * System.out.println(root.val); // 根
+     * dfs(root.right); // 右
+     * }
+     * 为适应本题，可改造上述算法：
+     * 1. 顺序改为右、根、左
+     * 2. 递归遍历时计数，统计当前节点的序号
+     * 3. 递归到第 k个节点时，应记录结果 res ；
+     * 4. 记录结果后，后续的遍历即失去意义，应提前终止（即返回）。
+     *//*
         this.k = k;
         dfs(root);
         return res;
@@ -756,11 +769,13 @@ public class Solution {
         dfs(root.left);
     }*/
     List<Integer> res = new ArrayList<>();
+
     public int kthLargest(TreeNode root, int k) {
         inOrder(root);
         return res.get(k - 1);
     }
-    public void inOrder(TreeNode node){
+
+    public void inOrder(TreeNode node) {
         if (node == null) return;
         inOrder(node.right);
         res.add(node.val);
@@ -770,11 +785,11 @@ public class Solution {
     /**
      * 输入一棵二叉树的根节点，求该树的深度。从根节点到叶节点依次经过的节点（含根、叶节点）形成树的一条路径，最长路径的长度为树的深度。
      * 给定二叉树 [3,9,20,null,null,15,7]，
-     *     3
-     *    / \
-     *   9  20
-     *     /  \
-     *    15   7
+     * 3
+     * / \
+     * 9  20
+     * /  \
+     * 15   7
      * 返回它的最大深度 3 。
      */
     public int maxDepth(TreeNode root) { //TODO 二叉树的遍历
@@ -803,20 +818,20 @@ public class Solution {
     /**
      * 输入一棵二叉树的根节点，判断该树是不是平衡二叉树。如果某二叉树中 **任意节点** 的左右子树的深度相差不超过1，那么它就是一棵平衡二叉树。
      * 给定二叉树 [3,9,20,null,null,15,7]
-     *     3
-     *    / \
-     *   9  20
-     *     /  \
-     *    15   7
+     * 3
+     * / \
+     * 9  20
+     * /  \
+     * 15   7
      * 返回 true 。
      * 给定二叉树 [1,2,2,3,3,null,null,4,4]
-     *        1
-     *       / \
-     *      2   2
-     *     / \
-     *    3   3
-     *   / \
-     *  4   4
+     * 1
+     * / \
+     * 2   2
+     * / \
+     * 3   3
+     * / \
+     * 4   4
      * 返回 false 。
      */
     public boolean isBalanced(TreeNode root) {
@@ -856,10 +871,10 @@ public class Solution {
         return res;*/ // 能做出来，但太耗时
         //TODO K神：双指针(对撞指针)
         int l = 0, r = nums.length - 1;
-        while (l < r){
+        while (l < r) {
             if (nums[l] + nums[r] > target) r--; //最大的加最小的都比target大，所以最大的数舍弃；
             else if (nums[l] + nums[r] < target) l++; //最小的加最大的都比target小，所以最小的舍弃
-            else return new int[] { nums[l], nums[r] };
+            else return new int[]{nums[l], nums[r]};
         }
         return new int[0];
     }
@@ -887,18 +902,18 @@ public class Solution {
          */
         int i = 1, j = 2, s = 3;
         List<int[]> res = new ArrayList<>();
-        while (i < j){
-            if (s == target){
-                int[] ans = new int[j - i +1];
+        while (i < j) {
+            if (s == target) {
+                int[] ans = new int[j - i + 1];
                 for (int k = i; k <= j; k++) {
-                    ans[k-i] = k;
+                    ans[k - i] = k;
                 }
                 res.add(ans);
             }
-            if (s >= target){
+            if (s >= target) {
                 s -= i;
                 i++;
-            }else {
+            } else {
                 j++;
                 s += j;
             }
@@ -933,10 +948,10 @@ public class Solution {
         s = s.trim(); //去掉首尾空格
         int j = s.length() - 1, i = j;
         StringBuilder res = new StringBuilder();
-        while (i >= 0){
+        while (i >= 0) {
             while (i >= 0 && s.charAt(i) != ' ') i--; //从最后一个字母开始，找到第一个空格
-            res.append(s, i+1, j+1).append(" ");
-            while (i>=0 && s.charAt(i) == ' ') i--; //跳过单词间的所有空格，找到下一个单词
+            res.append(s, i + 1, j + 1).append(" ");
+            while (i >= 0 && s.charAt(i) == ' ') i--; //跳过单词间的所有空格，找到下一个单词
             j = i;
         }
         return res.toString().trim();
@@ -1009,7 +1024,7 @@ public class Solution {
         Arrays.sort(nums);
         for (int i = 0; i < nums.length; i++) {
             if (nums[i] == 0) joker++; //统计大小王的数量
-            else if (nums[i] == nums[i+1]) return false; // 如果有除了大小王外的相同元素，直接返回false
+            else if (nums[i] == nums[i + 1]) return false; // 如果有除了大小王外的相同元素，直接返回false
         }
         return nums[4] - nums[joker] < 5; // 排序后，max = nums[4]， min = nums[joker]
 
@@ -1065,7 +1080,7 @@ public class Solution {
     /**
      * 给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。
      * 百度百科中最近公共祖先的定义为：
-     *  “对于有根树T的两个结点p、q，最近公共祖先表示为一个结点x，满足x是p、q的祖先且x的深度尽可能大（一个节点也可以是它自己的祖先）。”
+     * “对于有根树T的两个结点p、q，最近公共祖先表示为一个结点x，满足x是p、q的祖先且x的深度尽可能大（一个节点也可以是它自己的祖先）。”
      * 输入: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 8
      * 输出: 6
      * 解释: 节点 2 和节点 8 的最近公共祖先是 6。
@@ -1098,7 +1113,7 @@ public class Solution {
             // 说明p和q都在root的右子树中
             return lowestCommonAncestor(root.right, p, q);
         }
-        if (root.val > p.val && root.val > q.val){
+        if (root.val > p.val && root.val > q.val) {
             return lowestCommonAncestor(root.left, p, q);
         }
         return root;
