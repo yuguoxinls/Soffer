@@ -597,7 +597,7 @@ public class Solution {
      * 输出：' '
      */
     public char firstUniqChar(String s) {
-        Map<Character, Integer> map = new LinkedHashMap<>();
+        /*Map<Character, Integer> map = new LinkedHashMap<>(); 可以将map中的value换为Boolean类型，可提高效率
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             if (map.containsKey(c)) {
@@ -612,13 +612,24 @@ public class Solution {
         for (Character character : characters) {
             if (map.get(character) == 1) return character;
         }
+        return ' ';*/
+        if (s.isEmpty()) return ' ';
+        Map<Character, Boolean> map = new LinkedHashMap<>();
+        char[] sc = s.toCharArray();
+        for (char c : sc) {
+            map.put(c, !map.containsKey(c));
+        }
+        Set<Character> characters = map.keySet();
+        for (Character character : characters) {
+            if (Boolean.TRUE.equals(map.get(character))) return character;
+        }
         return ' ';
     }
 
     /**
      * 输入两个链表，找出它们的第一个公共节点。
      */
-    ListNode getIntersectionNode(ListNode headA, ListNode headB) { //TODO
+    ListNode getIntersectionNode(ListNode headA, ListNode headB) {
         /**
          * 设「第一个公共节点」为 node「链表 headA」的节点数量为 a「链表 headB」的节点数量为 b「两链表的公共尾部」的节点数量为 c，则有：
          * 头节点 headA 到 node 前，共有 a−c个节点；
@@ -1157,6 +1168,90 @@ public class Solution {
             else return true;
         }
         return false;
+    }
+
+    /**
+     * 输入某二叉树的前序遍历和中序遍历的结果，请构建该二叉树并返回其根节点。
+     * 假设输入的前序遍历和中序遍历的结果中都不含重复的数字。
+     */
+    HashMap<Integer, Integer> map = new HashMap<>();//标记中序遍历
+    int[] preorder;//保留的先序遍历，方便递归时依据索引查看先序遍历的值
+    public TreeNode buildTree(int[] preorder, int[] inorder) { // TODO: 2022/10/26 麻了。。。
+        this.preorder = preorder;
+        //将中序遍历的值及索引放在map中，方便递归时获取左子树与右子树的数量及其根的索引
+        for (int i = 0; i < inorder.length; i++) {
+            map.put(inorder[i], i);
+        }
+        //三个索引分别为
+        //当前根的的索引
+        //递归树的左边界，即数组左边界
+        //递归树的右边界，即数组右边界
+        return recur(0,0,inorder.length-1);
+    }
+    TreeNode recur(int preRoot, int inLeft, int inRight){
+        if(inLeft > inRight) return null;// 相等的话就是自己
+        TreeNode root = new TreeNode(preorder[preRoot]);//获取root节点
+        int idx = map.get(preorder[preRoot]);//获取在中序遍历中根节点所在索引，以方便获取左子树的数量
+        //左子树的根的索引为先序中的根节点+1
+        //递归左子树的左边界为原来的中序in_left
+        //递归左子树的右边界为中序中的根节点索引-1
+        root.left = recur(preRoot+1, inLeft, idx-1);
+        //右子树的根的索引为先序中的 当前根位置 + 左子树的数量 + 1
+        //递归右子树的左边界为中序中当前根节点+1
+        //递归右子树的右边界为中序中原来右子树的边界
+        root.right = recur(preRoot + (idx - inLeft) + 1, idx+1, inRight);
+        return root;
+    }
+
+    /**
+     * 给定一个 m x n 二维字符网格 board 和一个字符串单词 word 。如果 word 存在于网格中，返回 true ；否则，返回 false 。
+     * 单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。
+     */
+    public boolean exist(char[][] board, String word) { // TODO: 2022/10/26 继续麻，感觉需要看一下算法课，这个类似于走迷宫
+        char[] words = word.toCharArray();
+        for(int i = 0; i < board.length; i++) {
+            for(int j = 0; j < board[0].length; j++) {
+                if(dfs(board, words, i, j, 0)) return true;
+            }
+        }
+        return false;
+    }
+    boolean dfs(char[][] board, char[] word, int i, int j, int k) {
+        if(i >= board.length || i < 0 || j >= board[0].length || j < 0 || board[i][j] != word[k]) return false;
+        if(k == word.length - 1) return true;
+        board[i][j] = '\0';
+        boolean res = dfs(board, word, i + 1, j, k + 1) || dfs(board, word, i - 1, j, k + 1) ||
+                dfs(board, word, i, j + 1, k + 1) || dfs(board, word, i , j - 1, k + 1);
+        board[i][j] = word[k];
+        return res;
+    }
+
+    /**
+     * 给你一根长度为 n 的绳子，请把绳子剪成整数长度的 m 段（m、n都是整数，n>1并且m>1），每段绳子的长度记为 k[0],k[1]...k[m-1] 。
+     * 请问 k[0]*k[1]*...*k[m-1] 可能的最大乘积是多少？
+     * 例如，当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到的最大乘积是18。
+     * 示例 1：
+     * 输入: 2
+     * 输出: 1
+     * 解释: 2 = 1 + 1, 1 × 1 = 1
+     * 示例 2:
+     * 输入: 10
+     * 输出: 36
+     * 解释: 10 = 3 + 3 + 4, 3 × 3 × 4 = 36
+     */
+    public int cuttingRope(int n) { // TODO: 2022/10/26 这tm纯纯的数学问题，艹
+        /**
+         * 给定数 n，
+         *  尽可能将 n 以长度 3 等分时，乘积最大。
+         *  尽可能以相等长度等分，乘积最大
+         * 比如说：n=9，那么 n=3+3+3时，3*3*3=27，最大
+         * 或者 n=13，n=3+3+3+3+1和n=3+3+3+4，显然后者更大
+         */
+        if (n<=3) return n-1;
+        int a = n/3, b = n%3;
+        if (b == 0) return (int) Math.pow(3, a);
+        if (b == 1) return (int) Math.pow(3, a-1) * 4;
+        return (int) Math.pow(3, a) * 2;
     }
 
 
