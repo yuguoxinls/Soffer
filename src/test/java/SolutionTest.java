@@ -1,6 +1,7 @@
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.awt.*;
 import java.util.Arrays;
 
 public class SolutionTest {
@@ -145,10 +146,12 @@ public class SolutionTest {
         System.out.println(solution.lastRemaining(n, m));
     }
 
-    @Test
-    public void add() {
-        int a = 0, b = 1;
-        System.out.println(solution.add(a, b));
-    }
 
+
+    @Test
+    public void exist() {
+        char[][] board = {{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}};
+        String word = "ABCCED";
+        System.out.println(solution.exist(board, word));
+    }
 }

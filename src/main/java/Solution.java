@@ -697,7 +697,7 @@ public class Solution {
      * 输入: [0,1,2,3,4,5,6,7,9]
      * 输出: 8
      */
-    public int missingNumber(int[] nums) { //TODO 需要判断特殊情况，缺失的是第一项或者最后一项
+    public int missingNumber(int[] nums) {
         /*if (nums[0] == 1){
             //代表缺失的是第一项
             return 0;
@@ -750,9 +750,8 @@ public class Solution {
      *  1
      * 输出: 4
      */
-    /*int res, k;
+    int res, k;
     public int kthLargest(TreeNode root, int k) { // TODO K神解答，看不懂。。。
-        */
     /**
      * 二叉搜索树的中序遍历得到的是升序序列：左、根、右，算法如下：
      * // 打印中序遍历
@@ -767,19 +766,19 @@ public class Solution {
      * 2. 递归遍历时计数，统计当前节点的序号
      * 3. 递归到第 k个节点时，应记录结果 res ；
      * 4. 记录结果后，后续的遍历即失去意义，应提前终止（即返回）。
-     *//*
+     */
         this.k = k;
         dfs(root);
         return res;
     }
     void dfs(TreeNode root){
         if (root == null) return;
-        dfs(root.right);
-        if (k == 0) return;
-        if (--k == 0) res = root.val;
+        dfs(root.right); // 这一行会找到整个二叉树最右的节点
+        if (k == 0) return; // 提前返回
+        if (--k == 0) res = root.val; // 如果当前节点是第 k 个节点，记录数据
         dfs(root.left);
-    }*/
-    List<Integer> res = new ArrayList<>();
+    }
+    /*List<Integer> res = new ArrayList<>();
 
     public int kthLargest(TreeNode root, int k) {
         inOrder(root);
@@ -791,7 +790,7 @@ public class Solution {
         inOrder(node.right);
         res.add(node.val);
         inOrder(node.left);
-    }
+    }*/
 
     /**
      * 输入一棵二叉树的根节点，求该树的深度。从根节点到叶节点依次经过的节点（含根、叶节点）形成树的一条路径，最长路径的长度为树的深度。
@@ -1207,16 +1206,35 @@ public class Solution {
      * 给定一个 m x n 二维字符网格 board 和一个字符串单词 word 。如果 word 存在于网格中，返回 true ；否则，返回 false 。
      * 单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。
      */
+    int rows = 0, cols = 0;
     public boolean exist(char[][] board, String word) { // TODO: 2022/10/26 继续麻，感觉需要看一下算法课，这个类似于走迷宫
-        char[] words = word.toCharArray();
-        for(int i = 0; i < board.length; i++) {
-            for(int j = 0; j < board[0].length; j++) {
-                if(dfs(board, words, i, j, 0)) return true;
+        rows = board.length;
+        cols = board[0].length;
+        char[] chars = word.toCharArray();
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (board[i][j] == chars[0]){  // 在矩阵中找到和字符串第一个字符相等的位置
+                    if (dfs(board, i, j, chars)) return true; // 返回true的条件是满足了dfs的条件
+                }
             }
         }
-        return false;
+        return false; // 执行到这里，2种可能：1. 第一个if就没达到要求，即矩阵中没有和字符串首字符相等的元素；2. dfs不满足条件
     }
-    boolean dfs(char[][] board, char[] word, int i, int j, int k) {
+    private boolean dfs(char[][] board, int i, int j, char[] chars) { // 用来走迷宫
+        if (chars.length == 0) return true; // 每一个字符都判断过了，而且之前没有返回false，说明找到了，返回true
+        if (i < 0 || i > rows - 1 || j < 0 || j > cols - 1) return false; // 索引越界了都没找到，返回false
+        if (board[i][j] == chars[0]){ // 判断矩阵中的当前元素是否和当前字符串的首字符相同
+            char tmp = board[i][j]; // 将矩阵中的当前值做保存，以便后面回溯的时候恢复
+            board[i][j] = '#'; // 做标记，表示已经走过这里了
+            if (dfs(board, i - 1, j, Arrays.copyOfRange(chars, 1, chars.length))) return true; // 向上走，并把字符串缩小一个
+            if (dfs(board, i + 1, j, Arrays.copyOfRange(chars, 1, chars.length))) return true; // 向下走，并把字符串缩小一个
+            if (dfs(board, i, j + 1, Arrays.copyOfRange(chars, 1, chars.length))) return true; // 向左走，并把字符串缩小一个
+            if (dfs(board, i, j - 1, Arrays.copyOfRange(chars, 1, chars.length))) return true; // 向右走，并把字符串缩小一个
+            board[i][j] = tmp; // 执行到这 说明上下左右都没走通，那么把原来做的标记恢复
+            return false; // 并且返回false，表示这条路走不通
+        }else return false; // 判断矩阵中的当前元素是否和当前字符串的首字符相同，不相同直接返回false
+    }
+    /*boolean dfs(char[][] board, char[] word, int i, int j, int k) {
         if(i >= board.length || i < 0 || j >= board[0].length || j < 0 || board[i][j] != word[k]) return false;
         if(k == word.length - 1) return true;
         board[i][j] = '\0';
@@ -1224,7 +1242,7 @@ public class Solution {
                 dfs(board, word, i, j + 1, k + 1) || dfs(board, word, i , j - 1, k + 1);
         board[i][j] = word[k];
         return res;
-    }
+    }*/
 
     /**
      * 给你一根长度为 n 的绳子，请把绳子剪成整数长度的 m 段（m、n都是整数，n>1并且m>1），每段绳子的长度记为 k[0],k[1]...k[m-1] 。
