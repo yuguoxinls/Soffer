@@ -154,4 +154,9 @@ public class SolutionTest {
         String word = "ABCCED";
         System.out.println(solution.exist(board, word));
     }
+
+    @Test
+    public void findContinuousSequence2() {
+        System.out.println(Arrays.deepToString(solution.findContinuousSequence2(15)));
+    }
 }

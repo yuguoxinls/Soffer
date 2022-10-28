@@ -844,7 +844,7 @@ public class Solution {
      * 4   4
      * 返回 false 。
      */
-    public boolean isBalanced(TreeNode root) {
+    public boolean isBalanced(TreeNode root) { // TODO: 2022/10/28
         if (root == null) return true;
         return Math.abs(maxDepth(root.left) - maxDepth(root.right)) <= 1 && isBalanced(root.left) && isBalanced(root.right);
     }
@@ -881,9 +881,9 @@ public class Solution {
         return res;*/ // 能做出来，但太耗时
         //TODO K神：双指针(对撞指针)
         int l = 0, r = nums.length - 1;
-        while (l < r) {
-            if (nums[l] + nums[r] > target) r--; //最大的加最小的都比target大，所以最大的数舍弃；
-            else if (nums[l] + nums[r] < target) l++; //最小的加最大的都比target小，所以最小的舍弃
+        while (l < r) { // 从两端向中间走，只有r--或l++
+            if (nums[l] + nums[r] > target) r--; //最小的数和最大的数相加，比target大，此时只能让最大的数小点，因此要r--；
+            else if (nums[l] + nums[r] < target) l++; //最小的数和最大的数相加，比target小，不能r--，那样会更小，因此l++
             else return new int[]{nums[l], nums[r]};
         }
         return new int[0];
@@ -899,9 +899,8 @@ public class Solution {
      * 输入：target = 15
      * 输出：[[1,2,3,4,5],[4,5,6],[7,8]]
      */
-    public int[][] findContinuousSequence(int target) {
-        //todo k神 滑动窗口 看不懂
-        /**
+    public int[][] findContinuousSequence2(int target) { // TODO: 2022/10/28 自己按照下面的算法流程写的代码，最起码能看懂
+        /** 滑动窗口
          * 算法流程：
          * 初始化： 左边界 i=1，右边界 j=2，元素和 s=3，结果列表 res；
          * 循环： 当 i≥j 时跳出；
@@ -911,24 +910,27 @@ public class Solution {
          * 返回值： 返回结果列表 res；
          */
         int i = 1, j = 2, s = 3;
-        List<int[]> res = new ArrayList<>();
-        while (i < j) {
-            if (s == target) {
-                int[] ans = new int[j - i + 1];
-                for (int k = i; k <= j; k++) {
-                    ans[k - i] = k;
-                }
-                res.add(ans);
-            }
-            if (s >= target) {
-                s -= i;
+        List<int[]> ans = new ArrayList<>();
+        while (i < j){
+            if (s > target){
+                s = s - i;
                 i++;
-            } else {
+            }else if (s < target){
                 j++;
-                s += j;
+                s = s + j;
+            }else {
+                int[] subAns = new int[j - i + 1];
+                int tmp = i;
+                for (int l = 0; l < subAns.length; l++) {
+                    subAns[l] = tmp++;
+                }
+                ans.add(subAns);
+                s = s - i;
+                i++;
             }
         }
-        return res.toArray(new int[0][]);
+        return ans.toArray(new int[0][]);
+
     }
 
     /**
