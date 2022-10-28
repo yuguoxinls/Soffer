@@ -1274,5 +1274,21 @@ public class Solution {
         return (int) Math.pow(3, a) * 2;
     }
 
+    /**
+     * 上题的变体，需要考虑大数越界的情况
+     * 答案需要取模 1e9+7（1000000007），如计算初始结果为：1000000008，请返回 1。
+     */
+    public int cuttingRopeV2(int n) {
+        if(n <= 3) return n - 1;
+        int b = n % 3, p = 1000000007;
+        long ret = 1;
+        int lineNums=n/3;           //线段被我们分成以3为大小的小线段个数
+        for(int i = 1; i < lineNums; i++) //这就是在算3的 lineNums-1 次方。此时还剩下一段 3 没算
+            ret = 3 * ret % p;
+        if(b == 0) return (int)(ret * 3 % p);   //被整除没有余数，此时把刚刚剩的一段 3给乘回来
+        if(b == 1) return (int)(ret * 4 % p);   //余数是 1，说明剩下一段长度为1，之前剩下一段长度为 3，如果是分成两段 1 3，乘积是3，没有合为一段（1+3=4）大，因此合为一段 4
+        return (int)(ret * 6 % p);       //余数是 2，说明剩下一段长度为2，之前剩下一段长度为 3，最后结果要添上 2*3 = 6
+    }
+
 
 }
