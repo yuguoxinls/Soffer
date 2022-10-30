@@ -159,4 +159,21 @@ public class SolutionTest {
     public void findContinuousSequence2() {
         System.out.println(Arrays.deepToString(solution.findContinuousSequence2(15)));
     }
+
+    @Test
+    public void reverseWordsV2() {
+        String s = "a      good   example./";
+        System.out.println(solution.reverseWordsV2(s));
+    }
+
+    @Test
+    public void isStraight() {
+        int[] nums = {0,0,2,3,5};
+        System.out.println(solution.isStraight(nums));
+    }
+
+    @Test
+    public void myPow() {
+        System.out.println(solution.myPow(2, 5));
+    }
 }

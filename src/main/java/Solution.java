@@ -528,19 +528,21 @@ public class Solution {
         if (k >= arr.length) return arr;
         return quickSort(arr, k, 0, arr.length - 1);
     }
+
     private int[] quickSort(int[] arr, int k, int l, int r) {
-        if (l>=r) return arr;
+        if (l >= r) return arr;
         int i = l, j = r;
-        while (i<j){
-            while (i<j&&arr[j]>=arr[l]) j--;
-            while (i<j&&arr[i]<=arr[l]) i++;
+        while (i < j) {
+            while (i < j && arr[j] >= arr[l]) j--;
+            while (i < j && arr[i] <= arr[l]) i++;
             swap(arr, i, j);
         }
         swap(arr, i, l);
-        if (i>k) quickSort(arr, k, l, i-1);
-        if (i<k) quickSort(arr, k, i+1,r);
+        if (i > k) quickSort(arr, k, l, i - 1);
+        if (i < k) quickSort(arr, k, i + 1, r);
         return Arrays.copyOf(arr, k);
     }
+
     private void swap(int[] arr, int i, int j) {
         int tmp = arr[i];
         arr[i] = arr[j];
@@ -734,44 +736,46 @@ public class Solution {
     /**
      * 给定一棵二叉搜索树，请找出其中第 k 大的节点的值。
      * 输入: root = [3,1,4,null,2], k = 1
-     *    3
-     *   / \
-     *  1   4
-     *   \
-     *    2
+     * 3
+     * / \
+     * 1   4
+     * \
+     * 2
      * 输出: 4
      * 输入: root = [5,3,6,2,4,null,null,1], k = 3
-     *        5
-     *       / \
-     *      3   6
-     *     / \
-     *    2   4
-     *   /
-     *  1
+     * 5
+     * / \
+     * 3   6
+     * / \
+     * 2   4
+     * /
+     * 1
      * 输出: 4
      */
     int res, k;
+
     public int kthLargest(TreeNode root, int k) { // TODO K神解答，看不懂。。。
-    /**
-     * 二叉搜索树的中序遍历得到的是升序序列：左、根、右，算法如下：
-     * // 打印中序遍历
-     * void dfs(TreeNode root) {
-     * if(root == null) return;
-     * dfs(root.left); // 左
-     * System.out.println(root.val); // 根
-     * dfs(root.right); // 右
-     * }
-     * 为适应本题，可改造上述算法：
-     * 1. 顺序改为右、根、左
-     * 2. 递归遍历时计数，统计当前节点的序号
-     * 3. 递归到第 k个节点时，应记录结果 res ；
-     * 4. 记录结果后，后续的遍历即失去意义，应提前终止（即返回）。
-     */
+        /**
+         * 二叉搜索树的中序遍历得到的是升序序列：左、根、右，算法如下：
+         * // 打印中序遍历
+         * void dfs(TreeNode root) {
+         * if(root == null) return;
+         * dfs(root.left); // 左
+         * System.out.println(root.val); // 根
+         * dfs(root.right); // 右
+         * }
+         * 为适应本题，可改造上述算法：
+         * 1. 顺序改为右、根、左
+         * 2. 递归遍历时计数，统计当前节点的序号
+         * 3. 递归到第 k个节点时，应记录结果 res ；
+         * 4. 记录结果后，后续的遍历即失去意义，应提前终止（即返回）。
+         */
         this.k = k;
         dfs(root);
         return res;
     }
-    void dfs(TreeNode root){
+
+    void dfs(TreeNode root) {
         if (root == null) return;
         dfs(root.right); // 这一行会找到整个二叉树最右的节点
         if (k == 0) return; // 提前返回
@@ -911,14 +915,14 @@ public class Solution {
          */
         int i = 1, j = 2, s = 3;
         List<int[]> ans = new ArrayList<>();
-        while (i < j){
-            if (s > target){
+        while (i < j) {
+            if (s > target) {
                 s = s - i;
                 i++;
-            }else if (s < target){
+            } else if (s < target) {
                 j++;
                 s = s + j;
-            }else {
+            } else {
                 int[] subAns = new int[j - i + 1];
                 int tmp = i;
                 for (int l = 0; l < subAns.length; l++) {
@@ -948,6 +952,20 @@ public class Solution {
      * 输出: "example good a"
      * 解释: 如果两个单词间有多余的空格，将反转后单词间的空格减少到只含一个。
      */
+    public String reverseWordsV2(String s) {
+        s = s.trim();
+        String ans = "";
+        int l = s.length() - 1, r = l;
+        while (l >= 0) {
+            while (l >= 0 && s.charAt(l) != ' ') l--;
+            ans = ans + s.substring(l + 1, r + 1) + ' ';
+            while (l >= 0 && s.charAt(l) == ' ') l--;
+            r = l;
+        }
+        return ans.trim(); //
+    }
+
+
     public String reverseWords(String s) {
         /*String[] split = s.split(" ");
         if (split.length == 0) return "";
@@ -959,14 +977,14 @@ public class Solution {
         //todo K神，双指针, 但是测试效果不如上边的方法
         s = s.trim(); //去掉首尾空格
         int j = s.length() - 1, i = j;
-        StringBuilder res = new StringBuilder();
+        StringBuilder res = new StringBuilder(); // TODO: 2022/10/30 尽量用StringBuilder，比直接用String拼接效率要高
         while (i >= 0) {
             while (i >= 0 && s.charAt(i) != ' ') i--; //从最后一个字母开始，找到第一个空格
             res.append(s, i + 1, j + 1).append(" ");
             while (i >= 0 && s.charAt(i) == ' ') i--; //跳过单词间的所有空格，找到下一个单词
             j = i;
         }
-        return res.toString().trim();
+        return res.toString().trim(); // TODO: 2022/10/30 注意在最后的结果上末尾还是有空格，记得去掉
     }
 
     /**
@@ -1012,7 +1030,7 @@ public class Solution {
      * 输入: [0,0,1,2,5]
      * 输出: True
      */
-    public boolean isStraight(int[] nums) {
+    public boolean isStraight(int[] nums) { // TODO: 2022/10/30 得考虑有重复元素的情况
         /**
          * 解题思路：
          * 根据题意，此 5 张牌是顺子的充分条件 如下：
@@ -1034,7 +1052,7 @@ public class Solution {
         // 方法二：排序加遍历，先对数组进行排序，排序后相同元素相邻
         int joker = 0; //大小王的数量
         Arrays.sort(nums);
-        for (int i = 0; i < nums.length; i++) {
+        for (int i = 0; i < nums.length - 1; i++) {
             if (nums[i] == 0) joker++; //统计大小王的数量
             else if (nums[i] == nums[i + 1]) return false; // 如果有除了大小王外的相同元素，直接返回false
         }
@@ -1145,27 +1163,27 @@ public class Solution {
     }
 
     //################################################## 中等难度 #############################################//
+
     /**
      * 在一个 n * m 的二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。
      * 请完成一个高效的函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
      * 示例:
      * 现有矩阵 matrix 如下：
      * [
-     *   [1,   4,  7, 11, 15],
-     *   [2,   5,  8, 12, 19],
-     *   [3,   6,  9, 16, 22],
-     *   [10, 13, 14, 17, 24],
-     *   [18, 21, 23, 26, 30]
+     * [1,   4,  7, 11, 15],
+     * [2,   5,  8, 12, 19],
+     * [3,   6,  9, 16, 22],
+     * [10, 13, 14, 17, 24],
+     * [18, 21, 23, 26, 30]
      * ]
      * 给定 target = 5，返回 true。
      * 给定 target = 20，返回 false。
      */
     public boolean findNumberIn2DArray(int[][] matrix, int target) { // TODO: 2022/10/25 K神 ！！！
         int i = matrix.length - 1, j = 0;
-        while(i >= 0 && j < matrix[0].length)
-        {
-            if(matrix[i][j] > target) i--;
-            else if(matrix[i][j] < target) j++;
+        while (i >= 0 && j < matrix[0].length) {
+            if (matrix[i][j] > target) i--;
+            else if (matrix[i][j] < target) j++;
             else return true;
         }
         return false;
@@ -1177,6 +1195,7 @@ public class Solution {
      */
     HashMap<Integer, Integer> map = new HashMap<>();//标记中序遍历
     int[] preorder;//保留的先序遍历，方便递归时依据索引查看先序遍历的值
+
     public TreeNode buildTree(int[] preorder, int[] inorder) { // TODO: 2022/10/26 麻了。。。
         this.preorder = preorder;
         //将中序遍历的值及索引放在map中，方便递归时获取左子树与右子树的数量及其根的索引
@@ -1187,20 +1206,21 @@ public class Solution {
         //当前根的的索引
         //递归树的左边界，即数组左边界
         //递归树的右边界，即数组右边界
-        return recur(0,0,inorder.length-1);
+        return recur(0, 0, inorder.length - 1);
     }
-    TreeNode recur(int preRoot, int inLeft, int inRight){
-        if(inLeft > inRight) return null;// 相等的话就是自己
+
+    TreeNode recur(int preRoot, int inLeft, int inRight) {
+        if (inLeft > inRight) return null;// 相等的话就是自己
         TreeNode root = new TreeNode(preorder[preRoot]);//获取root节点
         int idx = map.get(preorder[preRoot]);//获取在中序遍历中根节点所在索引，以方便获取左子树的数量
         //左子树的根的索引为先序中的根节点+1
         //递归左子树的左边界为原来的中序in_left
         //递归左子树的右边界为中序中的根节点索引-1
-        root.left = recur(preRoot+1, inLeft, idx-1);
+        root.left = recur(preRoot + 1, inLeft, idx - 1);
         //右子树的根的索引为先序中的 当前根位置 + 左子树的数量 + 1
         //递归右子树的左边界为中序中当前根节点+1
         //递归右子树的右边界为中序中原来右子树的边界
-        root.right = recur(preRoot + (idx - inLeft) + 1, idx+1, inRight);
+        root.right = recur(preRoot + (idx - inLeft) + 1, idx + 1, inRight);
         return root;
     }
 
@@ -1209,23 +1229,25 @@ public class Solution {
      * 单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。
      */
     int rows = 0, cols = 0;
+
     public boolean exist(char[][] board, String word) { // TODO: 2022/10/26 继续麻，感觉需要看一下算法课，这个类似于走迷宫
         rows = board.length;
         cols = board[0].length;
         char[] chars = word.toCharArray();
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                if (board[i][j] == chars[0]){  // 在矩阵中找到和字符串第一个字符相等的位置
+                if (board[i][j] == chars[0]) {  // 在矩阵中找到和字符串第一个字符相等的位置
                     if (dfs(board, i, j, chars)) return true; // 返回true的条件是满足了dfs的条件
                 }
             }
         }
         return false; // 执行到这里，2种可能：1. 第一个if就没达到要求，即矩阵中没有和字符串首字符相等的元素；2. dfs不满足条件
     }
+
     private boolean dfs(char[][] board, int i, int j, char[] chars) { // 用来走迷宫
         if (chars.length == 0) return true; // 每一个字符都判断过了，而且之前没有返回false，说明找到了，返回true
         if (i < 0 || i > rows - 1 || j < 0 || j > cols - 1) return false; // 索引越界了都没找到，返回false
-        if (board[i][j] == chars[0]){ // 判断矩阵中的当前元素是否和当前字符串的首字符相同
+        if (board[i][j] == chars[0]) { // 判断矩阵中的当前元素是否和当前字符串的首字符相同
             char tmp = board[i][j]; // 将矩阵中的当前值做保存，以便后面回溯的时候恢复
             board[i][j] = '#'; // 做标记，表示已经走过这里了
             if (dfs(board, i - 1, j, Arrays.copyOfRange(chars, 1, chars.length))) return true; // 向上走，并把字符串缩小一个
@@ -1234,7 +1256,7 @@ public class Solution {
             if (dfs(board, i, j - 1, Arrays.copyOfRange(chars, 1, chars.length))) return true; // 向右走，并把字符串缩小一个
             board[i][j] = tmp; // 执行到这 说明上下左右都没走通，那么把原来做的标记恢复
             return false; // 并且返回false，表示这条路走不通
-        }else return false; // 判断矩阵中的当前元素是否和当前字符串的首字符相同，不相同直接返回false
+        } else return false; // 判断矩阵中的当前元素是否和当前字符串的首字符相同，不相同直接返回false
     }
     /*boolean dfs(char[][] board, char[] word, int i, int j, int k) {
         if(i >= board.length || i < 0 || j >= board[0].length || j < 0 || board[i][j] != word[k]) return false;
@@ -1267,10 +1289,10 @@ public class Solution {
          * 比如说：n=9，那么 n=3+3+3时，3*3*3=27，最大
          * 或者 n=13，n=3+3+3+3+1和n=3+3+3+4，显然后者更大
          */
-        if (n<=3) return n-1;
-        int a = n/3, b = n%3;
+        if (n <= 3) return n - 1;
+        int a = n / 3, b = n % 3;
         if (b == 0) return (int) Math.pow(3, a);
-        if (b == 1) return (int) Math.pow(3, a-1) * 4;
+        if (b == 1) return (int) Math.pow(3, a - 1) * 4;
         return (int) Math.pow(3, a) * 2;
     }
 
@@ -1278,17 +1300,46 @@ public class Solution {
      * 上题的变体，需要考虑大数越界的情况
      * 答案需要取模 1e9+7（1000000007），如计算初始结果为：1000000008，请返回 1。
      */
-    public int cuttingRopeV2(int n) {
-        if(n <= 3) return n - 1;
+    public int cuttingRopeV2(int n) { // TODO: 2022/10/30 中等难度的题，没一个会的
+        if (n <= 3) return n - 1;
         int b = n % 3, p = 1000000007;
         long ret = 1;
-        int lineNums=n/3;           //线段被我们分成以3为大小的小线段个数
-        for(int i = 1; i < lineNums; i++) //这就是在算3的 lineNums-1 次方。此时还剩下一段 3 没算
+        int lineNums = n / 3;           //线段被我们分成以3为大小的小线段个数
+        for (int i = 1; i < lineNums; i++) //这就是在算3的 lineNums-1 次方。此时还剩下一段 3 没算
             ret = 3 * ret % p;
-        if(b == 0) return (int)(ret * 3 % p);   //被整除没有余数，此时把刚刚剩的一段 3给乘回来
-        if(b == 1) return (int)(ret * 4 % p);   //余数是 1，说明剩下一段长度为1，之前剩下一段长度为 3，如果是分成两段 1 3，乘积是3，没有合为一段（1+3=4）大，因此合为一段 4
-        return (int)(ret * 6 % p);       //余数是 2，说明剩下一段长度为2，之前剩下一段长度为 3，最后结果要添上 2*3 = 6
+        if (b == 0) return (int) (ret * 3 % p);   //被整除没有余数，此时把刚刚剩的一段 3给乘回来
+        if (b == 1)
+            return (int) (ret * 4 % p);   //余数是 1，说明剩下一段长度为1，之前剩下一段长度为 3，如果是分成两段 1 3，乘积是3，没有合为一段（1+3=4）大，因此合为一段 4
+        return (int) (ret * 6 % p);       //余数是 2，说明剩下一段长度为2，之前剩下一段长度为 3，最后结果要添上 2*3 = 6
     }
 
-
+    /**
+     * 实现 pow(x, n) ，即计算 x 的 n 次幂函数。不得使用库函数，同时不需要考虑大数问题。
+     * 示例 1：
+     * 输入：x = 2.00000, n = 10
+     * 输出：1024.00000
+     * 示例 2：
+     * 输入：x = 2.10000, n = 3
+     * 输出：9.26100
+     * 示例 3：
+     * 输入：x = 2.00000, n = -2
+     * 输出：0.25000
+     * 解释：2-2 = 1/22 = 1/4 = 0.25
+     */
+    public double myPow(double x, int n) { // TODO: 2022/10/30 快速幂，利用二分法
+        if (x == 1 || n == 0) return 1;
+        if (x == 0) return 0;
+        long b = n; //Java 代码中 int32 变量 n∈[−2147483648,2147483647]，因此当 n=−2147483648时执行 n=−n会因越界而赋值出错。
+        if (b < 0){
+            x = 1/x;
+            b = -b;
+        }
+        double ans = 1;
+        while (b > 0){
+            if (b % 2 == 1) ans = ans * x; // 奇数的话，先单独保存一个
+            x = x * x;
+            b = b/2;
+        }
+        return ans;
+    }
 }
