@@ -176,4 +176,9 @@ public class SolutionTest {
     public void myPow() {
         System.out.println(solution.myPow(2, 5));
     }
+
+    @Test
+    public void lastRemainingV2() {
+        System.out.println(solution.lastRemainingV2(5, 3));
+    }
 }

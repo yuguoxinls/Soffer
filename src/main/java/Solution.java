@@ -1085,7 +1085,7 @@ public class Solution {
         //todo k神 动态规划
         int x = 0;
         for (int i = 2; i <= n; i++) {
-            x = (x + m) % i;
+            x = (x + m) % i; // 状态转移方程：dp[i]=(dp[i−1]+m)%i，具体推导过程：https://leetcode.cn/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/solutions/607638/jian-zhi-offer-62-yuan-quan-zhong-zui-ho-dcow/
         }
         return x;
     }
@@ -1154,7 +1154,7 @@ public class Solution {
      */
     public TreeNode lowestCommonAncestorWithCommonTree(TreeNode root, TreeNode p, TreeNode q) { //todo
         if (root == null) return null;
-        if (p == root || q == root) return root; // 如果pq有一个是根节点，则最近公共祖先一定是root
+        if (p == root || q == root) return root; // 如果p q有一个是根节点，则最近公共祖先一定是root
         TreeNode left = lowestCommonAncestorWithCommonTree(root.left, p, q); // 在root的左子树中寻找p q，将其定义为left
         TreeNode right = lowestCommonAncestorWithCommonTree(root.right, p, q); // 在root的右子树中寻找p q，将其定义为right
         if (left == null) return right; // 说明左子树中没找到 那么就在right中
